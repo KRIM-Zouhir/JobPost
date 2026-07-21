@@ -1,3 +1,6 @@
+<?php
+    include './frontend/header.php' ;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,53 +9,120 @@
     <title>JobPost</title>
 </head>
 <body>
-    <?php include './frontend/header.php' ?>
-    <div class="container-fluid p-0 vh-100 d-flex flex-column">
-        <div id="carouselExampleIndicators" class="carousel slide h-100" data-bs-ride="carousel">
-            
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    
+    <div id="carouselExampleCaptions" class="carousel slide vh-100">
+
+        <div class="carousel-inner h-100">
+            <div class="carousel-item active h-100 ">
+                <img src="../../assets/img/Slide1.jpg" class="card-img d-block w-100 h-100 object-fit-cover " alt="...">
+                <div class="card-img-overlay bg-black bg-opacity-25"></div>
+                <div class="carousel-caption d-none d-md-block quicksand-regular">
+                    <h5>JobPost</h5>
+                    <p>The only way to find your dream !</p>
+                </div>
             </div>
-            
-            <div class="carousel-inner h-100">
-                
-                <div class="carousel-item active">
-                    <img src="./assets/img/Slide1.jpg" class="d-block w-100" alt="Slide 1">
-                    <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);"></div>
-                </div>
 
-                <div class="carousel-item">
-                    <img src="./assets/img/Slide2.jpg" class="d-block w-100" alt="Slide 2">
-                    <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);"></div>
+            <div class="carousel-item h-100">
+                <img src="../../assets/img/Slide2.jpg" class="card-img d-block w-100 h-100 object-fit-cover" alt="...">
+                <div class="card-img-overlay bg-black bg-opacity-25"></div>
+                <div class="carousel-caption d-none d-md-block quicksand-regular">
+                    <h5>JobPost</h5>
+                    <p>Your library of offers !</p>
                 </div>
-
-                <div class="carousel-item">
-                    <img src="./assets/img/Slide3.jpg" class="d-block w-100" alt="Slide 3">
-                    <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);"></div>
-                </div>
-
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
+
+            <div class="carousel-item  h-100">
+                <img src="../../assets/img/Slide3.jpg" class="card-img d-block w-100 h-100 object-fit-cover" alt="...">
+                <div class="card-img-overlay bg-black bg-opacity-25"></div>
+                <div class="carousel-caption d-none d-md-block quicksand-regular">
+                    <h5>JobPost</h5>
+                    <p>No more staying at home !</p>
+                </div>
+            </div>  
+        </div>
+        
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
     </div>
 
 
 
-
-    <div class="container-fluid p-0 vh-100 d-flex flex-column bg-black">
-        <div class="bg-black text-white">
-
+    <div class="container-fluid hero d-flex flex-column bg-blue-500 ">
+        <div class="text-white">
+            <h1 class="text-center mt-6 damion-regular">Where you find your dream !</h1>
+            <p class="text-center mt-2 quicksand-regular">Follow your dream !</p>
+            <div class="d-flex mt-5 gap-2 justify-content-center">
+                <a href="/jobs">
+                    <button class="btn btn-lg bg-white text-blue-500 ">Jobs</button>
+                </a>
+                <a href="/login">
+                    <button class="btn btn-lg bg-white text-blue-500">Connect</button>
+                </a>
+            </div>
 
         </div>
     </div>
+
+
+
+    <div class="bg-gray-night d-flex flex-column vh-100 p-1">
+        <h1 class="text-center text-white damion-regular mt-5 ">Your Guid !</h1>
+        <p class="text-center text-white quicksand-regular ">The guid</p>
+
+        <div class="d-flex justify-content-center align-items-start g-5 m-5" style="gap: 10rem;">
+
+            <div class="card" style="width: 22rem;">
+                <img src="/assets/img/card1.jpg" style="height: 350px; object-fit: cover;" class="card-img-top">
+                <div class="card-img-overlay bg-black bg-opacity-25"></div>
+                <div class="card-body">
+                    <a href="#" class="btn damion-regular fs-5 bg-gray-night text-white d-flex justify-content-center">Sign Up</a>
+                </div>
+            </div>
+
+        
+            <div class="card" style="width: 22rem; margin-top: 10rem;">
+                <img src="/assets/img/card2.jpg" style="height: 350px; object-fit: cover;" class="card-img-top">
+                <div class="card-img-overlay bg-black bg-opacity-25"></div>
+                <div class="card-body">
+                    <a href="#" class="btn damion-regular fs-5 bg-gray-night text-white d-flex justify-content-center">Apply</a>
+                </div>
+            </div>
+
+
+            <div class="card" style="width: 22rem;">
+                <img src="/assets/img/card3.jpg" style="height: 350px; object-fit: cover;" class="card-img-top">
+                <div class="card-img-overlay bg-black bg-opacity-25"></div>
+                <div class="card-body">
+                    <a href="#" class="btn damion-regular fs-5 bg-gray-night text-white d-flex justify-content-center">Track</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div> 
+
+    <style>
+        #mainNav {
+            transition: background-color 0.5s ease;
+        }
+
+    </style>
 </body>
 </html>
+
+<?php 
+    include './frontend/footer.php';
+?>

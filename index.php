@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon"  type="image/png"  href="./assets/img/logo.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">   
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Damion&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
 </head>
 <body >
     <script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
@@ -122,6 +125,45 @@
         
 
     ?>
+
+    <style>
+        .damion-regular {
+            font-family: "Damion", cursive;
+            font-size: 80px;
+            font-weight: 400;
+            font-style: normal;
+        }
+        .quicksand-regular {
+            font-family: "Quicksand", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .hero {
+            height: 50vh;
+        }
+        .footer {
+            height: 50vh;
+        }
+
+        .bg-blue-500 {
+            background-color: #3171C6 !important; /* Bootstrap blue */
+        }
+        .bg-gray-night {
+            background-color: #2D2D2D !important; /* Bootstrap blue */
+        }
+        .text-blue-500{
+            color:  #3171C6;
+        }
+
+        .mt-6 {
+            margin-top: 6rem !important;
+        }
+
+
+
+    </style>
 
 </body>
 </html>
