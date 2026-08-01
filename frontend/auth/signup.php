@@ -7,40 +7,68 @@
     <title>Sign up</title>
     
 </head>
-<body class="bg-black">
+<body class="bg-blue">
     <?php 
         [$id , $role] = sessionstart(); 
         if($id && $role){
             header('Location: /profile');
         }
     ?>
-    <div class="p-5 mt-5 text-white">
-        <h3>SIGN UP</h3>
+    <div class="p-5 mt-5">
 
+    
+    <h3 class="damion-regular text-white text-center fs-2">Sign Up </h3>
 
-        <form method="POST" action="../backend/auth.php">
-            <input type="hidden" name="form_type" value="signup"> 
+        <div class="d-flex justify-content-center align-items-center ">
+            <div class="card mt-3 w-25 p-4 shadow">
+                    <div class="d-flex justify-content-center align-items-center pt-3 pb-3">
 
+                        <form class="d-flex flex-column justify-content-center quicksand-regular" method="POST" action="../backend/auth.php">
+                            <input type="hidden" name="form_type" value="signup"> 
 
-            <input type="text" name="username" placeholder="Username" pattern="[A-Za-z._]{3,20}" title="3-20 characters: letters, dots, and underscores only" required>
-            <br>
-            <input type="text" name="email" placeholder="Email" required>
-            <br>
-            <input type="password" id="input_pwd" name="pwd" placeholder="Password" required>
-            <button type="button" id="showpwd">
-                <i class="bi bi-eye"> </i>
-            </button>
-            <br>
-            <input type="password" id="input_confirmpwd" name="confirmpwd" placeholder="Confirm Password" required>
-            <button type="button" id="showconfirmpwd">
-                <i class="bi bi-eye"> </i>
-            </button>
-            
-            <br>
-            <a href="/login">You already have an account?</a>
-            <br><br>
-            <input type="submit" value="Sign up">
-        </form>
+                                <div class="flex justify-content-center">
+                                    <div class="form-outline mb-2" data-mdb-input-init>
+                                        <label class="form-label" for="input_pwd" style="font-size: 14px;">Username</label>
+                                        <input class="form-control shadow" type="text" name="username"  style="font-size: 14px;" pattern="[A-Za-z._]{3,20}" title="3-20 characters: letters, dots, and underscores only" required>
+                                    </div>
+
+                                    <div class="form-outline mb-2" data-mdb-input-init>
+                                        <label class="form-label" for="input_pwd" style="font-size: 14px;">Email</label>
+                                        <input class="form-control shadow" type="text" name="email" style="font-size: 14px;" required>
+                                    </div>
+
+                                    <div class="form-outline mb-2" data-mdb-input-init>
+                                        <label class="form-label" for="input_pwd" style="font-size: 14px;">Password</label>
+                                        <div class="d-flex align-items-center gap-1">
+                                            <input class="form-control shadow" type="password" id="input_pwd" name="pwd" style="font-size: 14px;" required>
+                                            <button class="btn bg-blue text-white" type="button" id="showpwd">
+                                                <i class="bi bi-eye"> </i>
+                                            </button> 
+                                        </div>
+                                    </div>
+
+                                    <div class="form-outline mb-2" data-mdb-input-init>
+                                        <label class="form-label" for="input_pwd" style="font-size: 14px;">Confirm password</label>
+                                        <div class="d-flex align-items-center gap-1">
+                                            <input class="form-control shadow" type="password" id="input_confirmpwd" name="confirmpwd" style="font-size: 14px;" required>
+                                            <button class="btn bg-blue text-white" type="button" id="showconfirmpwd">
+                                                <i class="bi bi-eye shadow"> </i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        
+                            
+                            
+                            <a class="text-blue text-center pt-3 pb-3" style="font-size: 11px;" href="/login">You already have an account?</a>
+                            
+                            <input class="btn bg-blue text-white" type="submit" value="Sign up">
+                        </form>
+
+                </div>
+            </div>
+        </div>
     </div>
     
 

@@ -1,4 +1,15 @@
-<?php include './frontend/header.php' ?>
+<?php 
+        include './frontend/header.php';
+        
+        
+        if($id && $role){
+            header('Location: /profile');
+        }
+        
+        $checkbox = isset($_COOKIE['userinfo']) AND isset($_COOKIE['pwdinfo']) ? true : false;
+        $userinfo = $_COOKIE['userinfo'] ?? '';
+        $pwdinfo = $_COOKIE['pwdinfo'] ?? '';
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,56 +20,64 @@
 
     
 </head>
-<body class="bg-black">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<body class="bg-blue">
 
-
-    <?php 
-        if($id && $role){
-            header('Location: /profile');
-        }
-        
-        $checkbox = isset($_COOKIE['userinfo']) AND isset($_COOKIE['pwdinfo']) ? true : false;
-        $userinfo = $_COOKIE['userinfo'] ?? '';
-        $pwdinfo = $_COOKIE['pwdinfo'] ?? '';
-    ?>
     <div class="p-5 mt-5 text-white">
-        <h3>LOG IN</h3>
-        
         <?php if (isset($_SESSION['success'])) {
             echo "<div class='success'>" . $_SESSION['success'] . "</div>";
             unset($_SESSION['success']);
         } ?>
-        <form method="POST" action="../backend/auth.php">
-            <br>
-            <input type="hidden" name="form_type" value="login"> 
-
-            <input type="text" name="username" placeholder="Username / Email" value="<?php echo $userinfo ?>" required>  
-            <br><br>
-            <input type="password" name="pwd" id="input_pwd" placeholder="Password" value="<?php echo $pwdinfo ?>" required>
-            <button type="button" id="showpwd">
-                <i class="bi bi-eye"> </i>
-            </button>
-
-            <br><br>
 
 
-            <input type="checkbox" name="saveinfo" <?php if ($checkbox === true){echo 'checked'; } ?>>
-            <label for="saveinfo">Save Login info</label>
+        <h3 class="damion-regular fs-2 text-center">Log in</h3>
+        
+        <div class="d-flex justify-content-center align-items-center ">
+            <div class="card mt-3 w-25 p-4 shadow">
+                <div class="d-flex justify-content-center align-items-center pt-3 pb-3">
 
-            <br>
-            <a href="/signup">Create an account ?</a>
-            <br>
-            <a href="/reset-password">Forgot your password ?</a>
-            <br><br>
+                    <form  class="d-flex flex-column justify-content-center align-items-center quicksand-regular" method="POST" action="../backend/auth.php">
+                        <input type="hidden" name="form_type" value="login">
 
+                        <div class="flex justify-content-center">
+                            <div class="form-outline mb-2" data-mdb-input-init>
+                                <label class="form-label" for="input_pwd">Username / Email</label>
+                                <input class="form-control shadow " type="text" name="username"  style="font-size: 14px;" value="<?php echo $userinfo ?>" required>  
+                            </div>
 
-            <input type="submit" value="Login">
-        </form>
+                            <div class="form-outline mb-2" data-mdb-input-init>
+                                <label class="form-label" for="input_pwd">Password</label>
+
+                                <div class="d-flex align-items-center gap-1">
+                                    <input class="form-control input-group-3 shadow" type="password" name="pwd" id="input_pwd"  style="font-size: 14px;" value="<?php echo $pwdinfo ?>"  required>
+                                    <button class="btn bg-blue text-white shadow" type="button" id="showpwd" >
+                                        <i class="bi bi-eye shadow"> </i>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+        
+                        <div class="d-flex align-items-center gap-1 mb-2">
+                            <input class="checkbox" type="checkbox" name="saveinfo" <?php if ($checkbox === true){echo 'checked'; } ?>>
+                            <label for="saveinfo" style="font-size: 15px">Save Login info</label>
+                        </div>
+            
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                            <a href="/signup" class="text-blue" style="font-size: 11px;">Create an account ?</a>
+                            <a class="text-blue" style="font-size: 10px;">/</a>
+                            <a href="/reset-password" class="text-blue" style="font-size: 11px;" class="">Forgot your password ?</a>
+                        </div>
+
+                        <input type="submit" value="Login" class="btn bg-blue text-white">
+                    </form>
+
+                </div>
+            </div>
+        </div>
 
     </div>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
 
         const input_pwd = document.getElementById('input_pwd');
@@ -69,8 +88,6 @@
 
         }
 
-        // showpwd.addEventListener('click', function(){
-        // })
 
     </script>
     

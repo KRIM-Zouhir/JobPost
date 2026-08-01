@@ -14,20 +14,16 @@
     <div class="p-5 mt-5 text-white text-center">
         <h3>Verify using your email !</h3>
 
-        <?php 
-         ?>
         <p>The link in your email will expired in 10 minutes (Check Spam/Bin)</p>
+        
         <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
+
         <p id="counter"></p>
         <br>
         <a href="">You didnt receive an email ?</a>
         <br><br>
-
-
-
-
     </div>
     
 </body>

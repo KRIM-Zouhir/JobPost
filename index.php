@@ -109,6 +109,10 @@
             include './frontend/admin/users.php';
         });
 
+        route('/loading' , function() {
+            include './frontend/helpers/loading.php';
+        });
+
 
         route('/jobs/([0-9]+)', function($id){
             $_GET['job_id'] = $id;
@@ -147,23 +151,59 @@
             height: 50vh;
         }
 
-        .bg-blue-500 {
-            background-color: #3171C6 !important; /* Bootstrap blue */
+        .bg-white {
+            background-color: #F4F3F1 !important; /* Bootstrap blue */
         }
-        .bg-gray-night {
-            background-color: #2D2D2D !important; /* Bootstrap blue */
+        .bg-blue {
+            background-color: #10367D !important; /* Bootstrap blue */
         }
-        .text-blue-500{
-            color:  #3171C6;
+        .bg-gray {
+            background-color: #111827 !important; /* Bootstrap blue */
+        }
+        .text-white{
+            color:  #F4F3F1;
+        }
+        .text-blue{
+            color:  #10367D;
+        }
+        .text-gray{
+            color:  #2D2D2D;
+        }
+
+        .stroke-white{
+            border: 2px solid #F4F3F1;
+        }
+        .stroke-blue{
+            border: 2px solid #10367D;
+        }
+        .stroke-gray{
+            border: 2px solid #2D2D2D;
         }
 
         .mt-6 {
             margin-top: 6rem !important;
         }
+        .mt-12 {
+            margin-top: 12rem !important;
+        }
 
+        .fs-buttons{
+            font-size: 18px;
+        }
+
+        .links-rm{
+            text-decoration: none;
+        }
 
 
     </style>
+
+    <script>
+        import { Input, initMDB } from "mdb-ui-kit";
+
+        initMDB({ Input });
+
+    </script>
 
 </body>
 </html>

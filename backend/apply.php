@@ -2,12 +2,13 @@
     include "connect.php"; 
     include "helper.php";
 
-
+    
 
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $form_type = $_POST['form_type'];
         if($form_type === "apply") :
             try{
+                
                 $user_id = htmlentities($_POST['user_id']);
                 $post_id = htmlentities($_POST['postid']);
                 $status = "pending";

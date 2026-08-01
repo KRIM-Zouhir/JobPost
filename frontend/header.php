@@ -109,10 +109,10 @@
                     navbar.classList.remove('bg-transparent');
                     navbar.classList.remove('navbar-light');
                     navbar.classList.add('navbar-dark');
-                    navbar.classList.add('bg-blue-500');
+                    navbar.classList.add('bg-blue');
 
                 }else{
-                    navbar.classList.remove('bg-blue-500');
+                    navbar.classList.remove('bg-blue');
                     navbar.classList.add('bg-transparent');
                 }
             })
@@ -125,9 +125,6 @@
             
         }
         
-        .bg-blue-500 {
-            background-color: #3171C6 !important; /* Bootstrap blue */
-        }
 
     </style>    
 
