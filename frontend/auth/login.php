@@ -1,14 +1,12 @@
 <?php 
-        include './frontend/header.php';
-        
-        
+        include_once './frontend/helpers/session-init.php';
         if($id && $role){
             header('Location: /profile');
         }
+
+
+        include './frontend/header.php';
         
-        $checkbox = isset($_COOKIE['userinfo']) AND isset($_COOKIE['pwdinfo']) ? true : false;
-        $userinfo = $_COOKIE['userinfo'] ?? '';
-        $pwdinfo = $_COOKIE['pwdinfo'] ?? '';
 ?>
 
 <!DOCTYPE html>
@@ -23,15 +21,22 @@
 <body class="bg-blue">
 
     <div class="p-5 mt-5 text-white">
-        <?php if (isset($_SESSION['success'])) {
-            echo "<div class='success'>" . $_SESSION['success'] . "</div>";
-            unset($_SESSION['success']);
-        } ?>
+        <?php 
+            
+            $checkbox = isset($_COOKIE['userinfo']) AND isset($_COOKIE['pwdinfo']) ? true : false;
+            $userinfo = $_COOKIE['userinfo'] ?? '';
+            $pwdinfo = $_COOKIE['pwdinfo'] ?? '';
+        
+            if (isset($_SESSION['success'])) {
+                echo "<div class='success'>" . $_SESSION['success'] . "</div>";
+                unset($_SESSION['success']);
+            } 
+        ?>
 
 
         <h3 class="damion-regular fs-2 text-center">Log in</h3>
         
-        <div class="d-flex justify-content-center align-items-center ">
+        <div class="d-flex justify-content-center align-items-center">
             <div class="card mt-3 w-25 p-4 shadow">
                 <div class="d-flex justify-content-center align-items-center pt-3 pb-3">
 

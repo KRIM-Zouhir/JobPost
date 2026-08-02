@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Presets</title>
 </head>
-<body class="bg-black">
+<body class="bg-blue">
     <div class="p-5 mt-5 text-white">
         <h3>Presets</h3>
 

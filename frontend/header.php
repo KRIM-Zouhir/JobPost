@@ -1,3 +1,18 @@
+<?php 
+    include_once './frontend/helpers/session-init.php';
+
+    // function sessionstart(){
+    //     if(session_status() === PHP_SESSION_NONE){
+    //         session_start();
+    //     }
+    //     $id = $_SESSION['user_id'] ?? null;
+    //     $role = $_SESSION['role'] ?? null; 
+    //     return [$id, $role];
+    // }
+
+    // [$id, $role] = sessionstart();
+?> 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,22 +21,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <?php 
-        function sessionstart(){
-            if(session_status() === PHP_SESSION_NONE){
-                session_start();
-            }
-            $id = $_SESSION['user_id'] ?? null;
-            $role = $_SESSION['role'] ?? null; 
-            return [$id, $role];
-        }
 
-        [$id, $role] = sessionstart();
-    ?> 
 
     <nav id="mainNav" class="navbar navbar-expand-lg navbar-dark bg-transparent fixed-top py-3">
         <div class="container px-4 px-lg-5">
@@ -59,24 +62,24 @@
                     <?php 
                         if(isset($_SESSION['user_id'])): 
                     ?>
-                        <?php 
+                    <?php 
                             if($role == "user"):
-                        ?>
-                            <li class="nav-item">
-                                <a class="nav-link fs-6 quicksand-regular" href="/offers-status">
-                                    Offers
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link fs-6 quicksand-regular" href="/presets">
-                                    Presets
-                                </a>
-                            </li>
+                    ?>
+                                <li class="nav-item">
+                                    <a class="nav-link fs-6 quicksand-regular" href="/offers-status">
+                                        Offers
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link fs-6 quicksand-regular" href="/presets">
+                                        Presets
+                                    </a>
+                                </li>
 
 
-                        <?php 
+                    <?php 
                             endif;
-                        ?>
+                    ?>
                         <li class="nav-item">
                             <a class="nav-link fs-6 quicksand-regular" href="/profile">
                                 Profile
@@ -85,11 +88,11 @@
                     <?php 
                         else: 
                     ?>
-                        <li class="nav-item">
-                            <a class="nav-link fs-6 quicksand-regular" href="/login">
-                                Login
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link fs-6 quicksand-regular" href="/login">
+                                    Login
+                                </a>
+                            </li>
                     <?php 
                         endif; 
                     ?>

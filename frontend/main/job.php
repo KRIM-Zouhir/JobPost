@@ -3,6 +3,7 @@
         include './backend/post.php';
         include './backend/apply.php';
         include './backend/search.php';
+        include_once './frontend/helpers/session-init.php';
 
         $start= 0;
         $rows_per_page = 9;
@@ -63,6 +64,9 @@
                 <div class="card h-100 shadow">
                     
                     <div class="card-body">
+
+                        <?php $post_id = $job['postid'] ?>
+
                         <h5 class="card-title fw-bold">
                             <?php echo htmlspecialchars($job['title']); ?>
                         </h5>
@@ -138,6 +142,8 @@
                 <div class="card h-100 shadow">
                     
                     <div class="card-body">
+                        <?php $post_id = $job['postid'] ?>
+
                         <h5 class="card-title fw-bold">
                             <?php echo htmlspecialchars($job['title']); ?>
                         </h5>
@@ -208,31 +214,61 @@
     </div>
 
 
+    <div id="modalOverlay" style="display: none;"></div>
+    <div class=" d-flex align-items-center justify-content-center">
+        <div class="card p-5" id="FormApplyJob"  style="display: none;">
 
+            <button class="btn btn-close " id="btnclose" type="button" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            
+            <?php 
+                if($id && $role){ ?>
+                    <form class="d-flex flex-column justify-content-center align-items-center quicksand-regular" method="POST" action="../backend/apply.php" enctype="multipart/form-data">
+                        <input type="hidden" name="form_type" value="apply">
+                        <input type="hidden" name="user_id" value="<?php echo $id?>">
+                        <input type="hidden" name="postid">
 
-    <div class="">
-        <?php 
-            if($id && $role){ ?>
-                <form method="POST" action="../backend/apply.php" id="FormApplyJob" enctype="multipart/form-data" style="display: none;">
-                    <input type="hidden" name="form_type" value="apply">
-                    <input type="hidden" name="user_id" value="<?php echo $id?>">
-                    <input type="hidden" name="postid">
-                    
-                    <label for="cvfile" >Drop your CV *</label>
-                    <br>
-                    <input type="file" name="cvfile" required>
-                    <br>
-                    <label for="coverfile">Drop your Cover letter</label>
-                    <br>
-                    <input type="file" name="coverfile">
-                    <br><br>
-                    <input type="submit" name="Apply">
+                        
 
-                </form>
+                        <div class="pb-5">
 
-        <?php } ?>
+                            <label for="cvfile" >Drop your CV *</label>
+    
+                            <label for="images" class="drop-container" id="dropcontainer">
+                                <span class="drop-title">Drop files here</span>
+                                or
+                                <input type="file" id="images" accept="image/*" name="cvfile" required>
+                            </label>
+                        </div>
+                        
+                        <div class="pb-5">
+                            <label for="coverfile">Drop your Cover letter</label>
+    
+                            <label for="images" class="drop-container" id="dropcontainer">
+                                <span class="drop-title">Drop files here</span>
+                                or
+                                <input type="file" id="images" accept="image/*" name="coverfile" required>
+                            </label>
 
-        
+                        </div>
+
+                        <!-- <input type="file" name="cvfile" required> -->
+
+                        <!-- <label for="coverfile">Drop your Cover letter</label> -->
+
+                        <!-- <input type="file" name="coverfile"> -->
+
+                        <input class="btn bg-blue text-white" type="submit" name="Apply">
+    
+                    </form>
+    
+            <?php } ?>
+        </div>
+    </div>
+    
+
+    <div>
         <?php     
             if(empty($id) && empty($role)){?>
                 <form id="FormLogin" style="display: none;">
@@ -363,9 +399,37 @@
     <?php 
         include './frontend/footer.php';
     ?>
+    
 
 
     <style>
+        
+        #FormApplyJob{
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        #modalOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .btn-close{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
         .card-body:hover{
             color:#000;
         }
@@ -394,11 +458,11 @@
         .search-btn:hover {
             color: #000;
         }
-
+        
         .search-container {
             position: relative;
         }
-
+        
         .search-input {
             height: 40px;
             width: 600px;
@@ -407,7 +471,7 @@
             border: none;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
+        
         .search-icon {
             height: 13px;
             width: 13px;
@@ -417,28 +481,113 @@
             transform: translateY(-50%);
             color: #888;
         }
-
+        
         .search-icon:hover {
             color: #000;
         }
         .clear-icon {
-
+            
             position: absolute;
             top: 50%;
             right: 45px;
             transform: translateY(-50%);
             color: #888;
         }
-
+        
         .clear-icon:hover {
             color: #000;
         }
+        
+        .drop-container {
+            position: relative;
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px dashed #555;
+            color: #2D2D2D;
+            cursor: pointer;
+            transition: background .2s ease-in-out, border .2s ease-in-out;
+        }
+        
+        .drop-container:hover,
+        .drop-container.drag-active {
+            background: #eee;
+            border-color: #1d1d1d;
+        }
+        
+        .drop-container:hover .drop-title,
+        .drop-container.drag-active .drop-title {
+            color: #1d1d1d;
+        }
+        
+        .drop-title {
+        color: #2D2D2D;
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        transition: color .2s ease-in-out;
+    }
+    
+    input[type=file] {
+        width: 350px;
+        max-width: 100%;
+        color: #2D2D2D;
+        padding: 5px;
+        background: #fff;
+        border-radius: 10px;
+        border: 1px solid #1d1d1d;
+    }
+    
+    input[type=file]::file-selector-button {
+        margin-right: 20px;
+        border: none;
+        background: #10367D;
+        padding: 10px 20px;
+        border-radius: 10px;
+        color: #fff;
+        cursor: pointer;
+        transition: background .2s ease-in-out;
+    }
+    
+    input[type=file]::file-selector-button:hover {
+        background: rgb(5, 37, 92);
+    }
     </style>
 
     
     <script>
+        const dropContainer = document.getElementById("dropcontainer")
+        const fileInput = document.getElementById("images")
+
+        dropContainer.addEventListener("dragover", (e) => {
+            // prevent default to allow drop
+            e.preventDefault()
+        }, false)
+
+        dropContainer.addEventListener("dragenter", () => {
+            dropContainer.classList.add("drag-active")
+        })
+
+        dropContainer.addEventListener("dragleave", () => {
+            dropContainer.classList.remove("drag-active")
+        })
+
+        dropContainer.addEventListener("drop", (e) => {
+            e.preventDefault()
+            dropContainer.classList.remove("drag-active")
+            fileInput.files = e.dataTransfer.files
+        })
+            
+
 
         const clearbtn = document.getElementById('clearbtn');
+        const overlay = document.getElementById('modalOverlay');
+
         
         clearbtn.addEventListener('click', function(){
             document.getElementById('searchinput').value = '';
@@ -451,11 +600,24 @@
 
                 const postidInput = document.querySelector('#FormApplyJob [name="postid"]');
                 if(postidInput) postidInput.value = postId;
+                
 
                 const form = document.getElementById('FormApplyJob') || document.getElementById('FormLogin');
+                overlay.style.display = form.style.display === 'none' ? 'block' : 'none';
                 form.style.display = form.style.display === 'none' ? 'block' : 'none';
             }
         })
+
+
+        const closebtn = document.getElementById('btnclose');
+        const form2 = document.getElementById('FormApplyJob') || document.getElementById('FormLogin');
+
+        closebtn.addEventListener('click', function(){
+            overlay.style.display = form2.style.display === 'block' ? 'none' : 'block';
+            form2.style.display = form2.style.display === 'block' ? 'none' : 'block';
+
+        })
+
 
     </script>
 </body>

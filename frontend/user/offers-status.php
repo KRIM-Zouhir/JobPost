@@ -19,7 +19,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Offers status</title>
 </head>
-<body class="bg-black">
+<body class="bg-blue">
+
+
     <div class="p-5 mt-5 text-white">
         <h3>Offers status</h3>
         <form method="GET" action="/offers-status" id="FormSearch">

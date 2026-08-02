@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -160,6 +159,12 @@
         .bg-gray {
             background-color: #111827 !important; /* Bootstrap blue */
         }
+        .bg-danger {
+            background-color: #b10b0b !important; /* Bootstrap blue */
+        }
+        .bg-success {
+            background-color: #02823c !important; /* Bootstrap blue */
+        }
         .text-white{
             color:  #F4F3F1;
         }
@@ -168,6 +173,12 @@
         }
         .text-gray{
             color:  #2D2D2D;
+        }
+        .text-danger{
+            color:  #b10b0b;
+        }
+        .text-success{
+            color:  #02823c;
         }
 
         .stroke-white{
@@ -178,6 +189,12 @@
         }
         .stroke-gray{
             border: 2px solid #2D2D2D;
+        }
+        .stroke-danger{
+            border: 2px solid #b10b0b;
+        }
+        .stroke-success{
+            border: 2px solid #02823c;
         }
 
         .mt-6 {
@@ -199,9 +216,9 @@
     </style>
 
     <script>
-        import { Input, initMDB } from "mdb-ui-kit";
+        // import { Input, initMDB } from "mdb-ui-kit";
 
-        initMDB({ Input });
+        // initMDB({ Input });
 
     </script>
 

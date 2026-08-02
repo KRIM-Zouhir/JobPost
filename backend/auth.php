@@ -164,7 +164,6 @@
                     $fetched_pwd = htmlentities($fetch['password']);
     
                     if(password_verify($password , $fetched_pwd)){
-                        echo "You logged in succefully !";
                         session_start();
                         $_SESSION['user_id'] = $fetch['id'];
                         $_SESSION['username'] = $fetch['username'];
@@ -187,23 +186,23 @@
     function profile_info ($db , $id){
         try{
             $table = "users"; 
-            $sql = "SELECT * FROM " . $table . " WHERE id = :id "; 
+            $sql = "SELECT * FROM $table WHERE id = :id "; 
 
             $stmt = $db->prepare($sql);
             $stmt->bindValue(':id', $id);
             $stmt->execute();
             $fetch = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if(empty($fetch)){
-                header('Location: /logout');
-            }
-            elseif($fetch == true ){
+            if(!empty($fetch)){
                 $fetched_username = htmlentities($fetch['username']);
                 $fetched_email = htmlentities($fetch['email']);
                 $fetched_role = htmlentities($fetch['role']);
-                echo "Username : " . $fetched_username . "<br>Email : " . $fetched_email . "<br>Role : " . $fetched_role;
-            }   
-            return true; 
+                return [$fetched_username , $fetched_email  , $fetched_role];
+            }
+            else{
+                header('Location: /logout');
+                return false;
+            }
 
         }catch(PDOException $e){
             echo "An error has occured !" . $e ;

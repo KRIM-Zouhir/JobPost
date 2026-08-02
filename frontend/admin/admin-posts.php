@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Posts</title>
 </head>
-<body class="bg-black">
+<body class="bg-blue">
     <?php 
         // Check if its user 
         [$id , $role] = sessionstart(); 
