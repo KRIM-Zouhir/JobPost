@@ -45,8 +45,8 @@
 
                         <div class="flex justify-content-center">
                             <div class="form-outline mb-2" data-mdb-input-init>
-                                <label class="form-label" for="input_pwd">Username / Email</label>
-                                <input class="form-control shadow " type="text" name="username"  style="font-size: 14px;" value="<?php echo $userinfo ?>" required>  
+                                <label class="form-label" for="input_user">Username / Email</label>
+                                <input class="form-control shadow " type="text" name="username" id="input_user" style="font-size: 14px;" value="<?php echo $userinfo ?>" required>  
                             </div>
 
                             <div class="form-outline mb-2" data-mdb-input-init>

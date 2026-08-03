@@ -2,6 +2,7 @@
     include './frontend/header.php';
     include './backend/helper.php';
     include './backend/preset.php';
+    include_once './frontend/helpers/session-init.php';
 
     if($role == "user") :
         $start= 0;

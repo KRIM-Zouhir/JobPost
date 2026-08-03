@@ -400,7 +400,66 @@
         include './frontend/footer.php';
     ?>
     
+    <script>
+        const dropContainer = document.getElementById("dropcontainer")
+        const fileInput = document.getElementById("images")
 
+        dropContainer.addEventListener("dragover", (e) => {
+            // prevent default to allow drop
+            e.preventDefault()
+        }, false)
+
+        dropContainer.addEventListener("dragenter", () => {
+            dropContainer.classList.add("drag-active")
+        })
+
+        dropContainer.addEventListener("dragleave", () => {
+            dropContainer.classList.remove("drag-active")
+        })
+
+        dropContainer.addEventListener("drop", (e) => {
+            e.preventDefault()
+            dropContainer.classList.remove("drag-active")
+            fileInput.files = e.dataTransfer.files
+        })
+            
+
+
+        const clearbtn = document.getElementById('clearbtn');
+        const overlay = document.getElementById('modalOverlay');
+
+        
+        clearbtn.addEventListener('click', function(){
+            document.getElementById('searchinput').value = '';
+
+        })
+
+        document.addEventListener('click', function(e){
+            if(e.target.classList.contains('BtnApplyJob')){
+                const postId = e.target.dataset.id;
+
+                const postidInput = document.querySelector('#FormApplyJob [name="postid"]');
+                if(postidInput) postidInput.value = postId;
+                
+
+                const form = document.getElementById('FormApplyJob') || document.getElementById('FormLogin');
+                overlay.style.display = form.style.display === 'none' ? 'block' : 'none';
+                form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            }
+        })
+
+
+        const closebtn = document.getElementById('btnclose');
+        const form2 = document.getElementById('FormApplyJob') || document.getElementById('FormLogin');
+
+        closebtn.addEventListener('click', function(){
+            overlay.style.display = form2.style.display === 'block' ? 'none' : 'block';
+            form2.style.display = form2.style.display === 'block' ? 'none' : 'block';
+
+        })
+
+
+    </script>
 
     <style>
         
@@ -531,94 +590,35 @@
         font-weight: bold;
         text-align: center;
         transition: color .2s ease-in-out;
-    }
-    
-    input[type=file] {
-        width: 350px;
-        max-width: 100%;
-        color: #2D2D2D;
-        padding: 5px;
-        background: #fff;
-        border-radius: 10px;
-        border: 1px solid #1d1d1d;
-    }
-    
-    input[type=file]::file-selector-button {
-        margin-right: 20px;
-        border: none;
-        background: #10367D;
-        padding: 10px 20px;
-        border-radius: 10px;
-        color: #fff;
-        cursor: pointer;
-        transition: background .2s ease-in-out;
-    }
-    
-    input[type=file]::file-selector-button:hover {
-        background: rgb(5, 37, 92);
-    }
+        }
+        
+        input[type=file] {
+            width: 350px;
+            max-width: 100%;
+            color: #2D2D2D;
+            padding: 5px;
+            background: #fff;
+            border-radius: 10px;
+            border: 1px solid #1d1d1d;
+        }
+        
+        input[type=file]::file-selector-button {
+            margin-right: 20px;
+            border: none;
+            background: #10367D;
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: background .2s ease-in-out;
+        }
+        
+        input[type=file]::file-selector-button:hover {
+            background: rgb(5, 37, 92);
+        }
     </style>
 
     
-    <script>
-        const dropContainer = document.getElementById("dropcontainer")
-        const fileInput = document.getElementById("images")
 
-        dropContainer.addEventListener("dragover", (e) => {
-            // prevent default to allow drop
-            e.preventDefault()
-        }, false)
-
-        dropContainer.addEventListener("dragenter", () => {
-            dropContainer.classList.add("drag-active")
-        })
-
-        dropContainer.addEventListener("dragleave", () => {
-            dropContainer.classList.remove("drag-active")
-        })
-
-        dropContainer.addEventListener("drop", (e) => {
-            e.preventDefault()
-            dropContainer.classList.remove("drag-active")
-            fileInput.files = e.dataTransfer.files
-        })
-            
-
-
-        const clearbtn = document.getElementById('clearbtn');
-        const overlay = document.getElementById('modalOverlay');
-
-        
-        clearbtn.addEventListener('click', function(){
-            document.getElementById('searchinput').value = '';
-
-        })
-
-        document.addEventListener('click', function(e){
-            if(e.target.classList.contains('BtnApplyJob')){
-                const postId = e.target.dataset.id;
-
-                const postidInput = document.querySelector('#FormApplyJob [name="postid"]');
-                if(postidInput) postidInput.value = postId;
-                
-
-                const form = document.getElementById('FormApplyJob') || document.getElementById('FormLogin');
-                overlay.style.display = form.style.display === 'none' ? 'block' : 'none';
-                form.style.display = form.style.display === 'none' ? 'block' : 'none';
-            }
-        })
-
-
-        const closebtn = document.getElementById('btnclose');
-        const form2 = document.getElementById('FormApplyJob') || document.getElementById('FormLogin');
-
-        closebtn.addEventListener('click', function(){
-            overlay.style.display = form2.style.display === 'block' ? 'none' : 'block';
-            form2.style.display = form2.style.display === 'block' ? 'none' : 'block';
-
-        })
-
-
-    </script>
 </body>
 </html>
