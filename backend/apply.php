@@ -11,6 +11,7 @@
                 
                 $user_id = htmlentities($_POST['user_id']);
                 $post_id = htmlentities($_POST['postid']);
+                $post_title = htmlentities($_POST['post_title']);
                 $status = "pending";
                 $cv_name = null;
                 $cover_name = null;
@@ -23,7 +24,7 @@
 
                 }
 
-                if((isset($_FILES['cvfile']) )&& $_FILES['cvfile']['error']== 0){
+                if((isset($_FILES['cvfile']) ) && $_FILES['cvfile']['error']== 0){
                     $tmp = $_FILES['cvfile']['tmp_name'];
                     $cv_name = "CV" . "_" . random_bytes(10) . "_" . $post_id . ".pdf";
 
@@ -39,7 +40,7 @@
                 }
 
                 
-                newapply($db , $user_id, $post_id, $cv_name , $cover_name , $status);
+                newapply($db , $user_id, $post_id, $post_title, $cv_name , $cover_name , $status);
                 header("Location: /jobs");
                     
 
@@ -82,11 +83,11 @@
     }
 
 
-    function newapply($db , $user_id, $post_id, $cv_name , $cover_name , $status){
+    function newapply($db , $user_id, $post_id, $post_title, $cv_name , $cover_name , $status){
         try{
             $table = "applications";
-            $sql_title = "SELECT title FROM posts WHERE $post_id";
-            $post_title = $db->query($sql_title);
+            // $sql_title = "SELECT title FROM posts WHERE $post_id";
+            // $post_title = $db->query($sql_title);
 
             $sql = "INSERT INTO $table ( user_id , post_id , post_title , cv_filename , cover_note , status) VALUES (:user_id , :post_id, :post_title, :cv_filename , :cover_note , :status)";
 

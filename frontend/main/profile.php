@@ -31,13 +31,13 @@
                 if($role == "admin"):
             ?>
                 <a href="/admin/admin-posts">
-                    <button class="btn stroke-blue text-blue" type="button">Posts</button>
+                    <button class="btn menu-btns" type="button">Posts</button>
                 </a>
                 <a href="/admin/users">
-                    <button class="btn stroke-blue text-blue" type="button">Users</button>
+                    <button class="btn menu-btns" type="button">Users</button>
                 </a>
                 <a href="/admin/applications">
-                    <button  class="btn stroke-blue text-blue" type="button">Applications</button>
+                    <button  class="btn menu-btns" type="button">Applications</button>
                 </a>
 
             <?php 
@@ -56,7 +56,6 @@
             ?>
     
                     <div class="card shadow p-3 h-100">
-    
                         <div class="card-body text-gray">
     
                             <h5 class="card-title fw-bold">
@@ -83,13 +82,12 @@
                         </div>
                     </div>
         
-            <?php  
+            <?php 
                 elseif($role == "admin"):
                     [$user , $email , $role] = profile_info($db, $id);  
             ?>
     
                     <div class="card shadow p-3 h-100">
-    
                         <div class="card-body text-gray">
     
                             <h5 class="card-title fw-bold">
@@ -119,6 +117,7 @@
                         </div>
                     </div>
     
+                    <!-- FORM NEW JOB -->
                     <div id="modalOverlay" style="display:none;"></div>
                     <div class="d-flex align-items-center justify-content-center" >
                         <div class="card p-5 w-25 Form" id="FormNewPost">
@@ -126,7 +125,6 @@
                             <button class="btn btn-close" id="btnclose" type="button" aria-label="Close">
                             </button>
                             
-                            <!-- FORM NEW JOB -->
                             <form class="d-flex flex-column justify-content-center align-items-center quicksand-regular" method="POST" action="../../backend/post.php" id="FormNewPost">
                                 <input type="hidden" name="form_type" value="NewJob"> 
                                 <input type="hidden" name="redirect_to" value="/profile"> 
@@ -195,10 +193,12 @@
     
             <!-- FORM DISPLAY JOBS -->
             
-            <form id="FormGetJobs" style="display: none;">
+            <form class="display-jobs" id="FormGetJobs">
                 
-                <div class="row g-4 mt-5">
-                    <?php 
+                <h3 class="damion-regular fs-2 text-white text-center pt-5">Actual Jobs</h3>
+                
+                <div class="row g-4">
+                    <?php
                         $alljobs = getpost($db ,$start=0 , $rows_per_page=3);
                         if(!empty($alljobs)){
                             foreach($alljobs as $job){
@@ -245,7 +245,7 @@
                                         <?php  echo htmlspecialchars(number_format($job['salary']));  ?> $
                                     </p>
     
-                                    <p class="fw-bold">
+                                    <p class="fw-bold color-success">
                                         <?php if($job['is_active'] === "1")echo "Active"; ?> 
                                     </p>
                 
@@ -261,10 +261,10 @@
                                                 Info / Apply
                                             </button>
                                         </a>
-                                    <?php 
+                                    <?php
                                         elseif($role == "admin"):
                                     ?>
-                                        <button class="btn stroke-success text-success BtnEditJob"
+                                        <button type="button" class="btn stroke-success text-success BtnEditJob"
                                                 data-id="<?php echo  htmlentities($job['postid']) ?>"
                                                 data-title="<?php echo  htmlentities($job['title']) ?>" 
                                                 data-company= "<?php echo  htmlentities($job['company']) ?>" 
@@ -276,7 +276,7 @@
                                         </button>
     
     
-                                        <button class="btn bg-danger text-white BtnDeleteJob"
+                                        <button class="btn bg-danger text-white BtnDeleteJob" type="button"
                                                 data-id="<?php echo htmlentities($job['postid']) ?>"
                                                 data-title="<?php echo htmlentities($job['title']) ?>">
                                             Delete Post
@@ -308,44 +308,66 @@
     
     
             <!-- FORM EDIT JOBS -->
-             
             <div id="modalOverlay" style="display:none;"></div>
             <div class="d-flex align-items-center justify-content-center" >
-                <div class="card p-5" id="FormJob" style="display:none;">
-    
-                    <button class="btn btn-close mt-5" id="btnclose" type="button" aria-label="Close">
-                        <!-- <span aria-hidden="true">&times;</span> -->
+                <div class="card p-5 w-25 Form" id="FormEditJob" style="display:none;">
+                    <button class="btn btn-close" id="btnclose1" type="button" aria-label="Close">
                     </button>
                     
-                    <form class="d-flex flex-column justify-content-center align-items-center quicksand-regular" method="POST" action="../../backend/post.php" id="FormEditJob" style="display:none;">
+                    <form class="d-flex flex-column justify-content-center align-items-center quicksand-regular"  method="POST" action="../../backend/post.php">
                         <input type="hidden" name="form_type" value="EditJob"> 
                         <input type="hidden" name="redirect_to" value="/profile"> 
                         <input type="hidden" name="PostId">
+
                         
-                        <input type="text" name="Title" placeholder="Job Title">
-                        <br>
-                        <input type="text" name="Company" placeholder="Company Name">
-                        <br>
-                        <input type="text" name="Location" placeholder="Job Location">
-                        <br>
-                        <select name="JobType" id="JobType" placeholder="Job Contract">
-                            <option value="full-time">Full Time</option>
-                            <option value="part-time">Part Time</option>
-                            <option value="temp">Temporary</option>
-                            <option value="internship">Internship</option>
-                        </select>
-                        <br>
-                        <input type="text" name="Description" placeholder="Job Description">
-                        <br>
-                        <input type="text" name="Salary" placeholder="Job Salary">
-                        <br>
-                        <select name="JobPlace" id="JobPlace" placeholder="Job Place">
-                            <option value="Presential">Presential</option>
-                            <option value="Telework">Telework</option>
-                            <option value="Hybrid">Hybrid</option>
-                        </select>
-                        <br>
-                        <input type="submit" value="Edit">
+                        <div class="form-outline w-75 mb-2" data-mdb-input-init>
+                            <label class="form-label" for="job_title">Job Title</label>
+                            <input class="form-control shadow" type="text" name="Title" id="job_title" style="font-size: 14px;" required>  
+                        </div>
+
+
+                        <div class="form-outline w-75  mb-2" data-mdb-input-init>
+                            <label class="form-label" for="job_company">Company Name</label>
+                            <input class="form-control shadow" type="text" name="Company" id="job_company" style="font-size: 14px;" required>  
+                        </div>
+
+
+                        <div class="form-outline w-75  mb-2" data-mdb-input-init>
+                            <label class="form-label" for="job_location">Job Location</label>
+                            <input class="form-control shadow" type="text" name="Location" id="job_location" style="font-size: 14px;" required>  
+                        </div>
+    
+                        <div class="form-outline w-75  mb-2" data-mdb-input-init>
+                            <label class="form-label" for="job_desc">Job Description</label>
+                            <textarea class="form-control shadow" type="text" name="Description"  rows="5" id="job_desc" style="font-size: 14px;" required></textarea> 
+                        </div>
+                        
+                        <div class="form-outline w-75">
+                            <label class="form-label" for="JobType">Job Type</label>
+                            <select class="form-select w-75  mb-2 shadow" name="JobType" id="JobType">
+                                <option value="full-time">Full Time</option>
+                                <option value="part-time">Part Time</option>
+                                <option value="temp">Temporary</option>
+                                <option value="internship">Internship</option>
+                            </select>
+                        </div>
+
+
+                        <div class="form-outline w-75  mb-2" data-mdb-input-init>
+                            <label class="form-label" for="job_salary">Job Salary</label>
+                            <input class="form-control b-5 shadow" type="text" name="Salary" id="job_salary" style="font-size: 14px;" required>  
+                        </div>
+
+                        <div class="form-outline w-75">
+                            <label class="form-label" for="JobType">Job Place</label>
+                            <select class="form-select w-75  mb-2 shadow" name="JobPlace" id="JobPlace">
+                                <option value="presential">Presential</option>
+                                <option value="telework">Telework</option>
+                                <option value="hybrid">Hybrid</option>
+                            </select>
+                        </div>
+
+                        <input class="btn bg-blue text-white mt-3" type="submit" value="Create">
                     </form>
                 </div>
             </div>
@@ -353,17 +375,27 @@
     
     
             <!-- FORM CONFIRM DELETE -->
-            <form method="POST" action="../../backend/post.php" id="FormDeleteJob" style="display: none;" >
-                <input type="hidden" name="form_type" value="DeleteJob"> 
-                <input type="hidden" name="redirect_to" value="/profile"> 
-    
-    
-                <input type="hidden" name="PostId">
-                <input type="hidden" name="PostTitle">
-                <input type="text" name="ConfirmDelete" placeholder="Write CONFIRM to delete">
-                <br>
-                <input type="submit" value="Delete">
-            </form>
+            <div id="modalOverlay" style="display:none;"></div>
+            <div class="d-flex align-items-center justify-content-center" >
+                <div class="card p-5 w-25 Form" id="FormDeleteJob" style="display: none;">
+                    <button class="btn btn-close" id="btnclose2" type="button" aria-label="Close">
+                    </button>
+                    <form  class="d-flex flex-column justify-content-center align-items-center quicksand-regular" method="POST" action="../../backend/post.php">
+                        <input type="hidden" name="form_type" value="DeleteJob"> 
+                        <input type="hidden" name="redirect_to" value="/profile"> 
+                        <input type="hidden" name="PostId">
+                        <input type="hidden" name="PostTitle">
+
+                        
+                        <div class="form-outline w-75  mb-2" data-mdb-input-init>
+                            <label class="form-label" for="confirm_delete">Type CONFIRM to delete</label>
+                            <input class="form-control b-5 shadow" type="text" name="ConfirmDelete" id="confirm_delete" style="font-size: 14px;" required>  
+                        </div>
+
+                        <input class="btn bg-blue text-white mt-3" type="submit" value="Delete">
+                    </form>
+                </div>
+            </div>
     
     
     
@@ -406,7 +438,22 @@
         closebtn.addEventListener('click', function(){
             overlay.style.display = NewFormJob.style.display === 'block' ? 'none' : 'block';
             NewFormJob.style.display = NewFormJob.style.display === 'block' ? 'none' : 'block';
+        })
 
+        const closebtn1 = document.getElementById('btnclose1');
+        const EditFormJob = document.getElementById('FormEditJob');
+
+        closebtn1.addEventListener('click', function(){
+            overlay.style.display = EditFormJob.style.display === 'block' ? 'none' : 'block';
+            EditFormJob.style.display = EditFormJob.style.display === 'block' ? 'none' : 'block';
+        })
+
+        const closebtn2 = document.getElementById('btnclose2');
+        const DeleteFormJob = document.getElementById('FormDeleteJob');
+
+        closebtn2.addEventListener('click', function(){
+            overlay.style.display = DeleteFormJob.style.display === 'none' ? 'block' : 'none';
+            DeleteFormJob.style.display = DeleteFormJob.style.display === 'none' ? 'block' : 'none';
         })
 
 
@@ -415,7 +462,7 @@
         const GetFormJob = document.getElementById('FormGetJobs');
         if(GetBtnJob){
             GetBtnJob.addEventListener('click' , function(){
-                GetFormJob.style.display = GetFormJob.style.display === 'none' ? 'block' : 'none';
+                GetFormJob.classList.toggle('open');
             });
         }
 
@@ -444,7 +491,11 @@
                 document.querySelector('#FormEditJob [name="Salary"]').value = jobData.salary;
 
                 const EditFormJob = document.getElementById('FormEditJob');
-                formdisplay(EditFormJob);
+                const overlay = document.getElementById('modalOverlay');
+
+                overlay.style.display = EditFormJob.style.display === 'none' ? 'block' : 'none';
+                EditFormJob.style.display = EditFormJob.style.display === 'none' ? 'block' : 'none';
+
             }
 
 
@@ -452,7 +503,7 @@
 
 
         // Form Delete Job
-       document.addEventListener('click' , function(e) {
+        document.addEventListener('click' , function(e) {
             if(e.target.classList.contains('BtnDeleteJob')){
                 const JobData = {
                     postid: e.target.dataset.id,
@@ -463,7 +514,8 @@
                 document.querySelector('#FormDeleteJob [name="PostTitle"]').value = JobData.postitle;
                 
                 const DeleteFormJob = document.getElementById('FormDeleteJob');
-                formdisplay(DeleteFormJob);
+                overlay.style.display = DeleteFormJob.style.display === 'none' ? 'block' : 'none';
+                DeleteFormJob.style.display = DeleteFormJob.style.display === 'none' ? 'block' : 'none';
 
             
             }
@@ -524,6 +576,7 @@
             right: 10px;
         }
 
+
         .menu-side{
             overflow: hidden;    
             width: 0;
@@ -531,18 +584,42 @@
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             padding: 0;
-            
-            
             transition: width 0.3s ease-in-out,box-shadow 0.2s ease-in-out, padding 0.3s ease-in-out;
         }
         .menu-side:hover {
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
         }
-        .menu-side.open {
-            width: 200px;
+        .menu-side.open{
+            width: 250px;
             padding: 1rem;
         }
 
+        .display-jobs{
+            padding : 1rem;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+        
+        .display-jobs.open{
+            max-height: 100%;
+            opacity: 1;
+        }
+
+        .menu-btns{
+            background-color: #10367D;
+            color: #F4F3F1;
+            transition: background-color 0.3s ease-in-out;
+
+        }
+
+        .menu-btns:hover{
+            
+            border: 2px solid #10367D;
+            border-color: #10367D;
+            color:#10367D;
+        }
 
     </style>
 

@@ -10,7 +10,7 @@
 </head>
 <body>
     
-    <div id="carouselExampleCaptions" class="carousel slide vh-100">
+    <div id="carouselExampleCaptions" class="carousel slide" style="height: 100dvh;">
 
         <div class="carousel-inner h-100">
             <div class="carousel-item active h-100 ">
@@ -60,7 +60,7 @@
 
 
 
-    <div class="container-fluid hero d-flex flex-column bg-blue ">
+    <div class="d-flex flex-column bg-blue" style="height: 50dvh">
         <div class="text-white">
             <h1 class="text-center mt-6 damion-regular">Where you find your dream !</h1>
             <p class="text-center mt-2 quicksand-regular">Follow your dream !</p>

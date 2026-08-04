@@ -27,7 +27,7 @@
 
         <div class="bg-blue mt-5 text-white d-flex justify-content-between">
             <h3 class="damion-regular fs-2">Jobs</h3>
-            <form method="GET" action="/jobs" id="FormSearch">
+            <form method="GET" action="/jobs">
                 <div class="search-container">
                     <input  type="text" 
                             name="search"
@@ -40,7 +40,7 @@
                         <i class="bi bi-eraser-fill clear-icon"></i>
                     </button>
 
-                    <button type="submit" class="search-btn"> 
+                    <button type="submit" class="search-btn">
                         <i class="fas fa-search search-icon"></i>
                     </button>
 
@@ -59,7 +59,7 @@
                     else{
                         foreach($alljobs as $job){
             ?>
-         
+        
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 shadow">
                     
@@ -95,7 +95,7 @@
     
                     </div>
     
-                    <?php                    
+                    <?php
                         $alr_applied = false;
                         if($post_ids){
                             foreach($post_ids as $postid){
@@ -198,7 +198,8 @@
                                 </button>
                             <?php } else { ?>
                                 <button class="btn bg-blue text-white BtnApplyJob"
-                                        data-id="<?php echo $post_id; ?>">
+                                        data-id="<?php echo $post_id; ?>"
+                                        data-title="<?php echo $job['title'];?>">
                                     Apply
                                 </button>
                             <?php } ?>
@@ -228,6 +229,8 @@
                         <input type="hidden" name="form_type" value="apply">
                         <input type="hidden" name="user_id" value="<?php echo $id?>">
                         <input type="hidden" name="postid">
+                        <input type="hidden" name="post_title">
+
 
                         
 
@@ -238,7 +241,7 @@
                             <label for="images" class="drop-container" id="dropcontainer">
                                 <span class="drop-title">Drop files here</span>
                                 or
-                                <input type="file" id="images" accept="image/*" name="cvfile" required>
+                                <input type="file" id="images"  name="cvfile" required>
                             </label>
                         </div>
                         
@@ -248,7 +251,7 @@
                             <label for="images" class="drop-container" id="dropcontainer">
                                 <span class="drop-title">Drop files here</span>
                                 or
-                                <input type="file" id="images" accept="image/*" name="coverfile" required>
+                                <input type="file" id="images" name="coverfile">
                             </label>
 
                         </div>
@@ -428,7 +431,6 @@
         const clearbtn = document.getElementById('clearbtn');
         const overlay = document.getElementById('modalOverlay');
 
-        
         clearbtn.addEventListener('click', function(){
             document.getElementById('searchinput').value = '';
 
@@ -437,9 +439,11 @@
         document.addEventListener('click', function(e){
             if(e.target.classList.contains('BtnApplyJob')){
                 const postId = e.target.dataset.id;
+                const posttitle = e.target.dataset.title;
 
                 const postidInput = document.querySelector('#FormApplyJob [name="postid"]');
                 if(postidInput) postidInput.value = postId;
+                if(posttitleInput) posttitleInput.value = posttitle;
                 
 
                 const form = document.getElementById('FormApplyJob') || document.getElementById('FormLogin');
@@ -544,6 +548,7 @@
         .search-icon:hover {
             color: #000;
         }
+
         .clear-icon {
             
             position: absolute;

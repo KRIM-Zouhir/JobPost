@@ -3,7 +3,7 @@
 // $db = null ;
 
 try {
-    $db = new PDO('mysql:host=localhost;dbname=jobboard;charset=utf8;', 'root', '3012');
+    $db = new PDO('mysql:host=localhost;dbname=jobboard;charset=utf8;', 'root', 'Test');
 } 
 
 catch (Exception $e) {
