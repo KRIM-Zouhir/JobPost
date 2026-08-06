@@ -1,6 +1,7 @@
 <?php 
     include "connect.php"; 
     include "helper.php";
+    include_once "preset.php";
 
     
 
@@ -12,6 +13,9 @@
                 $user_id = htmlentities($_POST['user_id']);
                 $post_id = htmlentities($_POST['postid']);
                 $post_title = htmlentities($_POST['post_title']);
+
+                $preset_id = htmlentities($_POST['preset_id']);
+
                 $status = "pending";
                 $cv_name = null;
                 $cover_name = null;
@@ -21,28 +25,33 @@
 
                 if(!is_dir($post_folder_path)){
                     mkdir($post_folder_path);
-
                 }
+                if(!empty($preset_id)){
+                    [$cv_name, $cover_name] = apply_preset($preset_id , $user_id, $post_id);
 
-                if((isset($_FILES['cvfile']) ) && $_FILES['cvfile']['error']== 0){
-                    $tmp = $_FILES['cvfile']['tmp_name'];
-                    $cv_name = "CV" . "_" . random_bytes(10) . "_" . $post_id . ".pdf";
+                }else{
+                    if((isset($_FILES['cvfile']) ) && $_FILES['cvfile']['error']== 0){
+                        $tmp = $_FILES['cvfile']['tmp_name'];
+                        $cv_name = "CV" . "_" . bin2hex(random_bytes(10)) . "_" . $post_id . ".pdf";
 
-                    move_uploaded_file($tmp, $post_folder_path . $cv_name);
-                } 
+                        move_uploaded_file($tmp, $post_folder_path . $cv_name);
+                    } 
 
-                if((isset($_FILES['coverfile']))){
+                    if((isset($_FILES['coverfile']))){
 
-                    $tmp = $_FILES['coverfile']['tmp_name'];
-                    $cover_name = "Cover" . "_" . random_bytes(10) . "_" . $post_id . ".pdf";
+                        $tmp = $_FILES['coverfile']['tmp_name'];
+                        $cover_name = "Cover" . "_" . bin2hex(random_bytes(10)) . "_" . $post_id . ".pdf";
 
-                    move_uploaded_file($tmp, $post_folder_path . $cover_name);
+                        move_uploaded_file($tmp, $post_folder_path . $cover_name);
+                    }
                 }
 
                 
-                newapply($db , $user_id, $post_id, $post_title, $cv_name , $cover_name , $status);
-                header("Location: /jobs");
-                    
+                if(newapply($db , $user_id, $post_id, $post_title, $cv_name , $cover_name , $status)){
+                    header("Location: /jobs");
+                }else{
+                    echo "An error has occured";
+                }
 
             }catch(PDOException $e){
                 echo "An error has occured <br> $e";

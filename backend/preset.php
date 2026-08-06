@@ -215,5 +215,39 @@
         }
     }
 
+    function apply_preset($presetid, $userid, $post_id){
+        try{
+            $preset_folder = "uploads/presets_" . $userid . "/name_" . $presetid . "/";
+            $cv_path = $preset_folder . "CV.pdf";
+            $cover_path = $preset_folder . "Cover.pdf";
+
+            $post_folder_path = "uploads/" . "post_" . $post_id . "/";
+
+            if(!is_dir($post_folder_path)){
+                mkdir($post_folder_path , 0755 , true);
+            }
+
+
+            if(!file_exists($cv_path)){
+                echo "CV file does not exist.";
+                return false;
+            }else{
+                $cv_name = "CV" . "_" . bin2hex(random_bytes(10)) . "_" . $post_id . ".pdf";
+                copy($cv_path, $post_folder_path . $cv_name);
+            }
+
+            if(file_exists($cover_path)){
+                $cover_name = "Cover" . "_" . bin2hex(random_bytes(10)) . "_" . $post_id . ".pdf";
+                copy($cover_path, $post_folder_path . $cover_name);
+            }
+
+            return [$cv_name, $cover_name];
+
+
+        }catch(Exception $e){
+            echo $e;
+            return false;
+        }
+    }
 
 ?>

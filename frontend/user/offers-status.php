@@ -11,7 +11,7 @@
     if($role == "user"){
         $start = 0;
         $rows_per_page = 10;
-    }
+    
 ?>
 
 <!DOCTYPE html>
@@ -25,6 +25,7 @@
 
 
     <div class="p-5 mt-5">
+
         <div class="bg-blue mt-5 d-flex justify-content-between">
             <h3 class="damion-regular fs-2 text-white text-center pb-2">Offers Status</h3>
             <form method="GET" action="/offers-status" id="FormSearch">
@@ -47,188 +48,184 @@
             </form>
         </div>
 
-        <div class="row g-4">
-            <?php  
+        <div class="row g-4 mt-3">
+            
+            <?php 
                 if(!isset($_GET['search'])){
                     $applications = get_applications_foruser($db, $start, $rows_per_page, $id );
-                    if(!empty($applications)){
-                        foreach($applications as $application){
-            ?>
-                        
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow">
-                        
-                        <div class="card-body">
-                                    
-                            <h6 class="card-subtitle mb-1">
-                                <?php echo htmlspecialchars($application['post_id']); ?>
-                            </h6>
-                            <h5 class="card-title fw-bold">
-                                <?php echo htmlspecialchars($application['post_title']); ?>
-                            </h5>
-
-
-            <?php
-                            $fetch = getpsotbyid($db, $application['post_id']);
-                            if(!empty($fetch)){
-            ?>
-                                <h6 class="card-subtitle mb-1">
-                                    <?php echo htmlspecialchars($fetch['company']); ?>
-                                </h6>
-
-                                <p class="mb-1">
-                                    <strong>Location:</strong>
-                                    <?php echo htmlspecialchars($fetch['location']); ?>
-                                </p>
-            <?php
-                            }
-            ?>
-                                <p class="mb-1">
-                                    <?php echo htmlspecialchars($application['status']); ?>
-                                </p>
-                                <p class="mb-1">
-                                    <?php echo htmlspecialchars($application['app_date']); ?>
-                                </p>
-                                
-                                <a href="/jobs/<?php echo $application['post_id']; ?>">More details</a>
-            <?php
-                }}else{
+                }else{
                     $search_value =  htmlentities($_GET['search']) ?? '';
                     $applications = search_offers($db , $id,'%' . $search_value  . '%', $start , $rows_per_page);
-                    if(!empty($applications)){
-                        foreach($applications as $application){
-                            echo $application['post_id'] . "<br>";
-                            echo $application['post_title'] . "<br>";
-                            $fetch = getpsotbyid($db, $application['post_id']);
-                            
-                            if(!empty($fetch)){
-                                echo $fetch['company'] . "<br>";
-                                echo $fetch['location'] . "<br>";
-                            }
-
-                            echo $application['status'] . "<br>";
-                            echo $application['app_date'] . "<br>";
-
-                            echo '<a href="/offers-status/' . $application['post_id']. '"><button>More details</button></a>';
-                            }
-                    }else{
-                        echo "No application found";
-                    }
                 }
+                if(!empty($applications)){
+                    foreach($applications as $application){
             ?>
-        </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow">
+                        <div class="card-body">
+
+                                <h6 class="card-subtitle mb-1">
+                                    <?php echo htmlspecialchars($application['post_id']); ?>
+                                </h6>
+                                <h5 class="card-title fw-bold">
+                                    <?php echo htmlspecialchars($application['post_title']); ?>
+                                </h5>
+
+
+                            <?php
+                                $fetch = getpsotbyid($db, $application['post_id']);
+                                if(!empty($fetch)){
+                            ?>
+                                    <h6 class="card-subtitle mb-1">
+                                        <?php echo htmlspecialchars($fetch['company']); ?>
+                                    </h6>
+
+                                    <p class="mb-1">
+                                        <strong>Location:</strong>
+                                        <?php echo htmlspecialchars($fetch['location']); ?>
+                                    </p>
+                            <?php
+                                    }
+                            ?>
+                                    <p class="mb-1">
+                                        <?php echo htmlspecialchars($application['status']); ?>
+                                    </p>
+                                    <p class="mb-1">
+                                        <?php echo htmlspecialchars($application['app_date']); ?>
+                                    </p>
+                        </div>
+
+                        <div class="card-footer">
+                            <a href="/jobs/<?php echo $application['post_id']; ?>"><button class="btn bg-blue text-white" type="button">More details</button></a>
+                        </div>
+
                     </div>
                 </div>
-    </div>
+
+            <?php 
+                    }}else{
+            ?>
+                    <h6 class="quicksand-regular text-white text-center mt-5">
+                        No offers found.
+                    </h6>
+            <?php
+                    }
+
+            ?>
+
+        </div>
+
+
+    </div>     
 
     <!-- Pagination -->
-    <?php 
-        global $pages;
+        <?php 
+            global $pages;
 
-        if(isset($_GET['page-nr']) && !isset($_GET['search'])){
-            $search_value =  $_GET['search'] ?? '';
-            $pages = calcul_offers($db , $id , $rows_per_page);
+            if(isset($_GET['page-nr']) && !isset($_GET['search'])){
+                $search_value =  $_GET['search'] ?? '';
+                $pages = calcul_offers($db , $id , $rows_per_page);
 
-            $uri_search = '';
-            $uri_page_nr = '/offers-status?page-nr=';
+                $uri_search = '';
+                $uri_page_nr = '/offers-status?page-nr=';
 
-        }elseif(isset($_GET['search'])){
-            $search_value =  $_GET['search'];
-            $pages = calcul_search_offers($db, $id, $rows_per_page , "post_title" , '%' . $search_value . '%');
+            }elseif(isset($_GET['search'])){
+                $search_value =  $_GET['search'];
+                $pages = calcul_search_offers($db, $id, $rows_per_page , "post_title" , '%' . $search_value . '%');
 
-            $uri_search = '/offers-status?search=';
-            $uri_page_nr = '&page-nr=';
+                $uri_search = '/offers-status?search=';
+                $uri_page_nr = '&page-nr=';
 
-        }else{
-            $search_value =  $_GET['search'] ?? '';
-            $pages = calcul_offers($db , $id , $rows_per_page);
+            }else{
+                $search_value =  $_GET['search'] ?? '';
+                $pages = calcul_offers($db , $id , $rows_per_page);
 
-            $uri_search = '';
-            $uri_page_nr = '/offers-status?page-nr=';
+                $uri_search = '';
+                $uri_page_nr = '/offers-status?page-nr=';
 
-        }
-    
-    ?>
-
-    <div class="text-center">
-        <div class="text-white quicksand-regular mb-1">
-                <?php   if(isset($_GET['page-nr'])){ 
-                            echo $_GET['page-nr'];}
-                        else{ 
-                            echo "1"; } ?> / <?php echo $pages;?>
-            </div>
-
-            <div class="pagination d-flex align-items-center justify-content-center gap-2">
-                <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?>1" class="btn bg-white text-blue">First</a>
-
-                <?php if(isset($_GET['page-nr']) && $_GET['page-nr'] > 1){?>
-                    <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $_GET['page-nr'] - 1; ?>" class="btn bg-white text-blue"><i class="bi bi-caret-left-fill"></i></a>
-                <?php  }else{?>
-                    <a href="" class="btn bg-white  text-blue"><i class="bi bi-caret-left-fill"></i></a>
-                <?php } ?>
-
-                
-
-                <div class="page-numbers">
-                <?php  
-                        if(empty($pages)){
-                ?>
-                            <a href="">No pages</a>
-                <?php 
-                        }else{
-
-                            $actual = isset($_GET['page-nr']) ? $_GET['page-nr'] : 1 ;
-
-                            $before = max(1, $actual - 1);
+            }
         
-                            $next = min($pages, $actual + 1);
-
-                            if($actual == 1) $next = min($pages, 3);
-                            if($actual == $pages) $before = max(1, $actual - 2);
-
-                ?>
-
-                <?php
-                        }for($i = $before; $i <= $next; $i++){
-                            if(isset($_GET['page-nr']) && $i == $_GET['page-nr']){
-                ?>
-                                <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $i ?>" class="btn stroke-white text-white"><?php echo $i ?></a>
-                <?php
-                            }else{
-                ?>
-                            <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $i ?>" class="btn bg-white text-blue"><?php echo $i ?></a>
-                <?php  
-                            }}      
-                ?>
+        ?>
+        <div class="text-center">
+            <div class="text-white quicksand-regular mb-1">
+                    <?php   if(isset($_GET['page-nr'])){ 
+                                echo $_GET['page-nr'];}
+                            else{ 
+                                echo "1"; } ?> / <?php echo $pages;?>
                 </div>
 
+                <div class="pagination d-flex align-items-center justify-content-center gap-2">
+                    <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?>1" class="btn bg-white text-blue">First</a>
 
+                    <?php if(isset($_GET['page-nr']) && $_GET['page-nr'] > 1){?>
+                        <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $_GET['page-nr'] - 1; ?>" class="btn bg-white text-blue"><i class="bi bi-caret-left-fill"></i></a>
+                    <?php  }else{?>
+                        <a href="" class="btn bg-white  text-blue"><i class="bi bi-caret-left-fill"></i></a>
+                    <?php } ?>
 
-                <?php 
-                    if(!isset($_GET['page-nr'])){
-                        if($pages > 1){?>
-                            <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?>2" class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
-                <?php   }elseif($pages <= 1 ){ ?>
-                            <a href="" class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
-                <?php   }
-                
-                    }else{
-                            if($_GET['page-nr'] >= $pages):?>
-                        <a href="" class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
-                <?php       else: ?> 
-                        <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $_GET['page-nr'] + 1 ?>" class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
-                <?php       endif; ?>
+                    
+
+                    <div class="page-numbers">
+                    <?php  
+                            if(empty($pages)){
+                    ?>
+                                <a href="">No pages</a>
+                    <?php 
+                            }else{
+
+                                $actual = isset($_GET['page-nr']) ? $_GET['page-nr'] : 1 ;
+
+                                $before = max(1, $actual - 1);
             
-                <?php 
-                    } ?>
+                                $next = min($pages, $actual + 1);
 
-                
-                
+                                if($actual == 1) $next = min($pages, 3);
+                                if($actual == $pages) $before = max(1, $actual - 2);
 
-                <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $pages;?>" class="btn bg-white text-blue">Last</a>
+                    ?>
+
+                    <?php
+                            }for($i = $before; $i <= $next; $i++){
+                                if(isset($_GET['page-nr']) && $i == $_GET['page-nr']){
+                    ?>
+                                    <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $i ?>" class="btn stroke-white text-white"><?php echo $i ?></a>
+                    <?php
+                                }else{
+                    ?>
+                                <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $i ?>" class="btn bg-white text-blue"><?php echo $i ?></a>
+                    <?php  
+                                }}      
+                    ?>
+                    </div>
+
+
+
+                    <?php 
+                        if(!isset($_GET['page-nr'])){
+                            if($pages > 1){?>
+                                <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?>2" class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
+                    <?php   }elseif($pages <= 1 ){ ?>
+                                <a href="" class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
+                    <?php   }
+                    
+                        }else{
+                                if($_GET['page-nr'] >= $pages):?>
+                            <a href="" class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
+                    <?php       else: ?> 
+                            <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $_GET['page-nr'] + 1 ?>" class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
+                    <?php       endif; ?>
+                
+                    <?php 
+                        } ?>
+
+                    
+                    
+
+                    <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $pages;?>" class="btn bg-white text-blue">Last</a>
+                </div>
             </div>
         </div>
-    </div>
 
     
     <script>
@@ -312,7 +309,8 @@
 
 </body>
 </html>
-<?php 
+
+<?php
     }else{
         header("Location: /login");
     }
