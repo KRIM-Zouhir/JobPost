@@ -87,7 +87,7 @@
                         </a>
 
                         <?php if(!empty($preset['cover_name'])) : ?>
-                            <a href="<?php echo "/backend/uploads/presets_" . $id . "/name_" . $preset['id'] . "/Cover.pdf"; ?>"    >
+                            <a href="<?php echo "/backend/uploads/presets_" . $id . "/name_" . $preset['id'] . "/Cover.pdf"; ?>">
                                 <button class="btn bg-blue text-white"><i class="bi bi-eye shadow"> </i>View Cover</button>
                             </a>
                         <?php else : ?>

@@ -104,6 +104,7 @@
                     'app_id' => htmlentities($row['id']),
                     'user_id' => htmlentities($row['user_id']),
                     'post_id' => htmlentities($row['post_id']),
+                    'post_title' => htmlentities($row['post_title']),
                     'cv_filename' => htmlentities($row['cv_filename']),
                     'cover_note' => htmlentities($row['cover_note']),
                     'status' => htmlentities($row['status']),

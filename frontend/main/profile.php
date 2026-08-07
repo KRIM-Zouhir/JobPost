@@ -120,7 +120,7 @@
                     <!-- FORM NEW JOB -->
                     <div id="modalOverlay" style="display:none;"></div>
                     <div class="d-flex align-items-center justify-content-center" >
-                        <div class="card p-5 w-25 Form" id="FormNewPost">
+                        <div class="card p-5 w-25 Form" id="FormNewPost" style="display: none;">
             
                             <button class="btn btn-close" id="btnclose" type="button" aria-label="Close">
                             </button>
@@ -549,7 +549,6 @@
 
         }
         .Form{
-            display: none;
             position: fixed;
             top: 50%;
             left: 50%;
