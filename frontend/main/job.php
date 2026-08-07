@@ -269,6 +269,7 @@
 
         
         ?>
+        
         <div class="text-center">
             <div class="text-white quicksand-regular mb-1">
                 <?php   if(isset($_GET['page-nr'])){ 
@@ -278,22 +279,36 @@
             </div>
 
             <div class="pagination d-flex align-items-center justify-content-center gap-2">
-                <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?>1" class="btn bg-white text-blue">First</a>
+                <?php if(isset($_GET['page-nr']) && $_GET['page-nr'] > 1){?>
+                            <a  href="<?php echo $uri_search . $search_value . $uri_page_nr; ?>1"
+                                class="btn bg-white text-blue"
+                                >First
+                            </a>
+                <?php  }else{?>
+                            <a class="btn bg-white text-blue">
+                                First
+                            </a>
+                <?php } ?>
 
                 <?php if(isset($_GET['page-nr']) && $_GET['page-nr'] > 1){?>
-                    <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $_GET['page-nr'] - 1; ?>" class="btn bg-white text-blue"><i class="bi bi-caret-left-fill"></i></a>
+                            <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?>
+                                <?php echo $_GET['page-nr'] - 1; ?>" class="btn bg-white text-blue">
+                                    <i class="bi bi-caret-left-fill"></i>
+                            </a>
                 <?php  }else{?>
-                    <a href="" class="btn bg-white  text-blue"><i class="bi bi-caret-left-fill"></i></a>
+                            <a class="btn bg-white text-blue">
+                                <i class="bi bi-caret-left-fill"></i>
+                            </a>
                 <?php } ?>
 
                 
 
                 <div class="page-numbers">
-                <?php  
+                    <?php
                         if(empty($pages)){
-                ?>
+                    ?>
                             <a><button class="btn bg-white text-blue" disabled>No pages</button></a>
-                <?php 
+                    <?php 
                         }else{
 
                             $actual = isset($_GET['page-nr']) ? $_GET['page-nr'] : 1 ;
@@ -326,28 +341,56 @@
 
 
 
-                <?php 
+                <?php
                     if(!isset($_GET['page-nr'])){
-                        if($pages > 1){?>
-                            <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?>2" class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
-                <?php   }elseif($pages <= 1 ){ ?>
-                            <a href="" class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
+                        if($pages > 1){
+                ?>
+                            <a  href="<?php echo $uri_search . $search_value . $uri_page_nr; ?>2" 
+                                class="btn bg-white text-blue"
+                                ><i class="bi bi-caret-right-fill"></i>
+                            </a>
+
+                <?php
+                        }elseif($pages <= 1 ){ 
+                ?>
+                            <a class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
                 <?php   }
                 
                     }else{
-                            if($_GET['page-nr'] >= $pages):?>
-                        <a href="" class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
-                <?php       else: ?> 
-                        <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $_GET['page-nr'] + 1 ?>" class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
-                <?php       endif; ?>
+                        if($_GET['page-nr'] >= $pages){
+                ?>
+                            <a class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
+                <?php
+                        }else{
+                ?>
+                        <a  href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $_GET['page-nr'] + 1 ?>" 
+                            class="btn bg-white text-blue"
+                            ><i class="bi bi-caret-right-fill"></i>
+                        </a>
+                <?php
+                        }
+                ?>
             
-                <?php 
-                    } ?>
+                <?php
+                    } 
+                ?>
 
-                
-                
-
-                <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $pages;?>" class="btn bg-white text-blue">Last</a>
+                <?php
+                    if($pages > 1){
+                ?>
+                    <a  href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $pages;?>" 
+                        class="btn bg-white text-blue"
+                        >Last
+                    </a>
+                <?php
+                    }else{
+                ?>
+                    <a  class="btn bg-white text-blue"
+                        >Last
+                    </a>
+                <?php
+                    }
+                ?>
             </div>
         </div>
     </div>

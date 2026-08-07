@@ -91,7 +91,7 @@
 
             $applications = [];
             $table = "applications";
-            $sql = "SELECT * FROM $table WHERE status LIKE :search_value LIMIT $start , $rows_per_page";
+            $sql = "SELECT * FROM $table WHERE post_title LIKE :search_value LIMIT $start , $rows_per_page";
 
             $stmt= $db->prepare($sql);
             $stmt->bindValue(':search_value', $search_value );

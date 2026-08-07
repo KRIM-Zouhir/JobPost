@@ -67,6 +67,31 @@
             ?>
                         <div class="col-md-6 col-lg-4">
                             <div class="card h-100 shadow">
+                                <div class="card-footer d-flex flex-column mb-4">
+                                        <?php
+                                            if($application['status'] == "accepted"):
+                                        ?>
+                                                <button class="btn bg-success text-white mt-3">
+                                                    Accepted
+                                                </button>
+                                        <?php
+                                            elseif($application['status'] == "pending"):
+                                        ?>
+                                                <button class="btn bg-blue text-white mt-3">
+                                                    Pending
+                                                </button>
+                                        <?php
+                                            elseif($application['status'] == "rejected"):
+                                        ?>
+                                                <button class="btn bg-danger text-white mt-3">
+                                                    Rejected
+                                                </button>
+
+                                        <?php
+                                            endif;
+                                        ?>
+                                    
+                                </div>
                                 
                                 <div class="card-body d-flex flex-column justify-content-center gap-1">
 
@@ -84,7 +109,7 @@
                                         <?php echo htmlspecialchars($application['post_id']); ?>
                                     </p>
                                     
-                                    <p class="mb-1">
+                                    <p class="mb-3">
                                         <strong>Date:</strong>
                                         <?php echo htmlspecialchars(date("M d, Y / H:i A", strtotime($application['app_date']))); ?>
                                     </p>
@@ -106,30 +131,6 @@
                                     <?php
                                         endif; 
                                     ?>
-
-                                    <div>
-                                        <?php
-                                            if($application['status'] == "accepted"):
-                                        ?>
-                                                <a class="btn stroke-success text-success mt-3">
-                                                    <?php echo htmlspecialchars($application['status']); ?>
-                                                </a>
-                                        <?php
-                                            elseif($application['status'] == "pending"):
-                                        ?>
-                                                <a class="btn stroke-blue text-blue mt-3">
-                                                    <?php echo htmlspecialchars($application['status']); ?>
-                                                </a>
-                                        <?php
-                                            elseif($application['status'] == "rejected"):
-                                        ?>
-                                                <a class="btn stroke-danger text-danger mt-3">
-                                                    <?php echo htmlspecialchars($application['status']); ?>
-                                                </a>
-                                        <?php
-                                            endif;
-                                        ?>
-                                    </div>
 
 
                                 </div>
@@ -218,14 +219,14 @@
 
             if(isset($_GET['page-nr']) && !isset($_GET['search'])){
                 $search_value =  htmlentities($_GET['search']) ?? '';
-                $pages = calcul($db , $table = "posts" , $rows_per_page);
+                $pages = calcul($db , $table = "applications" , $rows_per_page);
 
                 $uri_search = '';
                 $uri_page_nr = '/admin/applications?page-nr=';
 
             }elseif(isset($_GET['search'])){
                 $search_value =  htmlentities($_GET['search']);
-                $pages = calcul_search($db, $table="applications", $rows_per_page , "status", '%' . $search_value . '%');
+                $pages = calcul_search($db, $table="applications", $rows_per_page , "post_title", '%' . $search_value . '%');
 
                 $uri_search = '/admin/applications?search=';
                 $uri_page_nr = '&page-nr=';
@@ -243,29 +244,46 @@
         ?>
         <div class="text-center">
             <div class="text-white quicksand-regular mb-1">
-                <?php   if(isset($_GET['page-nr'])){ 
-                            echo $_GET['page-nr'];}
-                        else{ 
-                            echo "1"; } ?> / <?php echo $pages;?>
+                <?php
+                    if(isset($_GET['page-nr'])){
+                        echo $_GET['page-nr'];
+                    }else{ 
+                        echo "1";
+                    }
+                ?> / <?php echo $pages;?>
             </div>
 
             <div class="pagination d-flex align-items-center justify-content-center gap-2">
-                <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?>1" class="btn bg-white text-blue">First</a>
+                <?php if(isset($_GET['page-nr']) && $_GET['page-nr'] > 1){?>
+                            <a  href="<?php echo $uri_search . $search_value . $uri_page_nr; ?>1"
+                                class="btn bg-white text-blue"
+                                >First
+                            </a>
+                <?php  }else{?>
+                            <a class="btn bg-white text-blue">
+                                First
+                            </a>
+                <?php } ?>
 
                 <?php if(isset($_GET['page-nr']) && $_GET['page-nr'] > 1){?>
-                    <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $_GET['page-nr'] - 1; ?>" class="btn bg-white text-blue"><i class="bi bi-caret-left-fill"></i></a>
+                            <a  href="<?php echo $uri_search . $search_value . $uri_page_nr . $_GET['page-nr'] - 1; ?>" 
+                                class="btn bg-white text-blue">
+                                    <i class="bi bi-caret-left-fill"></i>
+                            </a>
                 <?php  }else{?>
-                    <a href="" class="btn bg-white  text-blue"><i class="bi bi-caret-left-fill"></i></a>
+                            <a class="btn bg-white text-blue">
+                                <i class="bi bi-caret-left-fill"></i>
+                            </a>
                 <?php } ?>
 
                 
 
                 <div class="page-numbers">
-                <?php  
+                    <?php
                         if(empty($pages)){
-                ?>
+                    ?>
                             <a><button class="btn bg-white text-blue" disabled>No pages</button></a>
-                <?php 
+                    <?php
                         }else{
 
                             $actual = isset($_GET['page-nr']) ? $_GET['page-nr'] : 1 ;
@@ -283,12 +301,16 @@
                         }for($i = $before; $i <= $next; $i++){
                             if(isset($_GET['page-nr']) && $i == $_GET['page-nr']){
                 ?>
-                                <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $i ?>" class="btn stroke-white text-white"><?php echo $i ?></a>
+                                <a  href="<?php echo $uri_search . $search_value . $uri_page_nr . $i ?>" 
+                                    class="btn stroke-white text-white"><?php echo $i ?>
+                                </a>
                 <?php
                             }else{
                                 if(!empty($pages)){
                 ?>
-                                <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $i ?>" class="btn bg-white text-blue"><?php echo $i ?></a>
+                                <a  href="<?php echo $uri_search . $search_value . $uri_page_nr . $i ?>" 
+                                    class="btn bg-white text-blue"><?php echo $i ?>
+                                </a>
                 <?php  
                         }
                         }}
@@ -298,28 +320,56 @@
 
 
 
-                <?php 
+                <?php
                     if(!isset($_GET['page-nr'])){
-                        if($pages > 1){?>
-                            <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?>2" class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
-                <?php   }elseif($pages <= 1 ){ ?>
-                            <a href="" class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
+                        if($pages > 1){
+                ?>
+                            <a  href="<?php echo $uri_search . $search_value . $uri_page_nr; ?>2" 
+                                class="btn bg-white text-blue"
+                                ><i class="bi bi-caret-right-fill"></i>
+                            </a>
+
+                <?php
+                        }elseif($pages <= 1 ){ 
+                ?>
+                            <a class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
                 <?php   }
                 
                     }else{
-                            if($_GET['page-nr'] >= $pages):?>
-                        <a href="" class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
-                <?php       else: ?> 
-                        <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $_GET['page-nr'] + 1 ?>" class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
-                <?php       endif; ?>
+                        if($_GET['page-nr'] >= $pages){
+                ?>
+                            <a class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
+                <?php
+                        }else{
+                ?>
+                        <a  href="<?php echo $uri_search . $search_value . $uri_page_nr . $_GET['page-nr'] + 1 ?>" 
+                            class="btn bg-white text-blue"
+                            ><i class="bi bi-caret-right-fill"></i>
+                        </a>
+                <?php
+                        }
+                ?>
             
-                <?php 
-                    } ?>
+                <?php
+                    } 
+                ?>
 
-                
-                
-
-                <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $pages;?>" class="btn bg-white text-blue">Last</a>
+                <?php
+                    if($pages > 1 ){
+                ?>
+                    <a  href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $pages;?>"
+                        class="btn bg-white text-blue"
+                        >Last
+                    </a>
+                <?php
+                    }elseif($pages == 1 OR $_GET['page-nr'] == $pages){
+                ?>
+                    <a  class="btn bg-white text-blue"
+                        >Last
+                    </a>
+                <?php
+                    }
+                ?>
             </div>
         </div>
     </div>

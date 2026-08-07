@@ -49,46 +49,23 @@
         <div class="p-5 mt-5 mb-5 flex-grow-1">
         
             <h3 class="damion-regular fs-2 text-white text-center pb-2">Profile</h3>
-    
-            <?php 
-                if($role == "user"):
+                <?php
                     [$user , $email , $role] = profile_info($db, $id);  
-            ?>
+                ?>
     
-                    <div class="card shadow p-3 h-100">
-                        <div class="card-body text-gray">
-    
-                            <h5 class="card-title fw-bold">
-                                <?php echo htmlspecialchars($user); ?>
-                            </h5>
-        
-                            <h6 class="card-subtitle mb-1">
-                                <?php echo htmlspecialchars($email); ?>
-                            </h6>
-        
-                            <p class="mb-1 ">
-                                <strong>Role :</strong>
-                                <?php echo htmlspecialchars($role); ?>
-                            </p>
+                    <div class="card shadow h-100">
+
+                        <div class="card-header p-3">
+                            <div class="d-flex">
+                                <i class="bi bi-person-fill" ></i>
+                                <h5 class="ps-3">
+                                    Account Info
+                                </h5>
+                            </div>
                         </div>
-                    
-                        <div class="card-footer border-0 d-flex justify-content-left gap-2 mb-2">
-    
-                            <button class="btn bg-blue text-white mt-3  " id="GetBtnJob">See actual jobs</button>
-    
-                            <a href="/logout">
-                                <button class="btn bg-danger text-white mt-3">Logout</button>
-                            </a>
-                        </div>
-                    </div>
-        
-            <?php 
-                elseif($role == "admin"):
-                    [$user , $email , $role] = profile_info($db, $id);  
-            ?>
-    
-                    <div class="card shadow p-3 h-100">
-                        <div class="card-body text-gray">
+
+
+                        <div class="card-body p-3">
     
                             <h5 class="card-title fw-bold">
                                 <?php echo htmlspecialchars($user); ?>
@@ -107,10 +84,14 @@
                         <div class="card-footer border-0 d-flex justify-content-left gap-2 mb-2">
     
                             <button class="btn bg-blue text-white mt-3" id="GetBtnJob" type="button">See actual jobs</button>
-    
+                <?php
+                    if($role == "admin"):
+                        [$user , $email , $role] = profile_info($db, $id);  
+                ?>
                             <button class="btn stroke-blue text-blue mt-3" id="BtnNewJob" type="button">New Job</button>
-    
-    
+                <?php
+                    endif;
+                ?>
                             <a href="/logout">
                                 <button class="btn bg-danger text-white mt-3">Logout</button>
                             </a>
@@ -187,7 +168,6 @@
                         </div>
                     </div>
 
-            <?php endif; ?>
                 
     
     
@@ -207,13 +187,36 @@
                     ?>
                         <div class="col-md-6 col-lg-4">
                             <div class="card card-jobs h-100">
-                                
+                                <div class="card-header">
+
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <p class="card-title fw-bold">
+                                            <?php echo id_to_user($db , $admin_id);?>
+                                        <p>
+                                        
+                                        <div>
+                                            <?php 
+                                                if($job['is_active'] === "1"){
+                                            ?> 
+                                                <button class="btn stroke-success fw-bold text-success">
+                                                    Active
+                                                </button>
+                                            <?php 
+                                                }else{
+                                            ?> 
+                                                <button class="btn stroke-danger fw-bold text-danger">
+                                                    Not Active
+                                                </button>
+                                            <?php 
+                                                }
+                                            ?> 
+                                        </div>
+                                        
+                                    </div>
+
+                                </div>
                                 <div class="card-body">
                                     
-                                    <h5>
-                                        <?php echo id_to_user($db , $admin_id);?>
-                                    </h5>
-    
                                     <h5 class="card-title fw-bold">
                                         <?php echo htmlspecialchars($job['title']); ?>
                                     </h5>
@@ -245,9 +248,6 @@
                                         <?php  echo htmlspecialchars(number_format($job['salary']));  ?> $
                                     </p>
     
-                                    <p class="fw-bold color-success">
-                                        <?php if($job['is_active'] === "1")echo "Active"; ?> 
-                                    </p>
                 
                                 </div>
     
@@ -264,7 +264,7 @@
                                     <?php
                                         elseif($role == "admin"):
                                     ?>
-                                        <button type="button" class="btn stroke-success text-success BtnEditJob"
+                                        <button type="button" class="btn bg-success text-white BtnEditJob"
                                                 data-id="<?php echo  htmlentities($job['postid']) ?>"
                                                 data-title="<?php echo  htmlentities($job['title']) ?>" 
                                                 data-company= "<?php echo  htmlentities($job['company']) ?>" 
@@ -302,7 +302,7 @@
                 </div>
                 
                 <a href="/jobs">
-                    <input class="btn stroke-white text-white mt-3" type="button" value="Show More">
+                    <input class="btn bg-white text-blue mt-3" type="button" value="Show More">
                 </a>
             </form>
     
