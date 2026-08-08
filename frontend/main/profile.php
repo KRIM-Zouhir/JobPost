@@ -26,10 +26,15 @@
     <div class="d-flex align-items-center">
 
         <!-- MENU SIDE ADMIN -->
+        <?php  
+            if($role == "admin"):
+        ?>
+        
+        <button class="btn ms-2 stroke-white text-white mb-2" id="MenuLeftSide" type="button" style="position:absolute; top:10%;">
+            <i class="bi bi-list"></i>
+        </button>
+
         <div class="d-flex flex-column menu-side gap-2 mt-5 mb-5" id="MenuLeftSideForm" >
-            <?php  
-                if($role == "admin"):
-            ?>
                 <a href="/admin/admin-posts">
                     <button class="btn menu-btns" type="button">Posts</button>
                 </a>
@@ -40,10 +45,10 @@
                     <button  class="btn menu-btns" type="button">Applications</button>
                 </a>
 
-            <?php 
-                endif; 
-            ?>
         </div>
+        <?php 
+            endif; 
+        ?>
 
         <!-- MAIN CONTENT -->
         <div class="p-5 mt-5 mb-5 flex-grow-1">
@@ -402,10 +407,6 @@
         </div>
     </div>
 
-    <button class="btn ms-2 stroke-white text-white mb-2" id="MenuLeftSide" type="button" style="position:absolute; top:10%;">
-        <i class="bi bi-list"></i>
-    </button>
-    
     <?php 
         include './frontend/footer.php';
     ?>
