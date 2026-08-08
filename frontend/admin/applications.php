@@ -67,6 +67,7 @@
             ?>
                         <div class="col-md-6 col-lg-4">
                             <div class="card h-100 shadow">
+
                                 <div class="card-header d-flex flex-column mb-2">
                                         <?php
                                             if($application['status'] == "accepted"):
@@ -191,7 +192,7 @@
                         </div>
 
             <?php
-                    }
+                }
                 }else{
             ?>
                         <h6 class="quicksand-regular text-white text-center mt-5">

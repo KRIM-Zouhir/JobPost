@@ -203,22 +203,42 @@
         }
     }
 
-    function get_application_byid($db , $app_id){
+    function get_application_byid($db , $start , $row_per_page , $app_id){
         try{
+            $applications = [];
             $table = "applications";
-            $sql = "SELECT * FROM $table WHERE post_id = :app_id";
+            $sql = "SELECT * FROM $table WHERE post_id = :app_id  LIMIT $start, $row_per_page";
 
             $stmt = $db->prepare($sql);
             $stmt->bindValue(':app_id',$app_id);
             $stmt->execute();
 
-            $fetch = $stmt->fetch(PDO::FETCH_ASSOC);
+            $fetch = $stmt->fetchall(PDO::FETCH_ASSOC);
 
-            return $fetch;
+            if(empty($fetch)){
+                exit;
+            }
+            else{
+                foreach($fetch as $row){
+                    $application = [
+                        'app_id' => htmlentities($row['id']),
+                        'user_id' => htmlentities($row['user_id']),
+                        'post_id' => htmlentities($row['post_id']),
+                        'post_title' => htmlentities($row['post_title']),
+                        'cv_filename' => htmlentities($row['cv_filename']),
+                        'cover_note' => htmlentities($row['cover_note']),
+                        'status' => htmlentities($row['status']),
+                        'app_date' => htmlentities($row['applied_at'])
+
+                        ];
+                    $applications[] = $application;
+                    
+                }
+            }
+            return $applications;
 
         }catch(PDOException $e){
             echo $e;
-            // return false;
         }
 
     }
