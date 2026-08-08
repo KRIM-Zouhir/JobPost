@@ -366,7 +366,7 @@
                                 <option value="hybrid">Hybrid</option>
                             </select>
                         </div>
-
+                        
                         <input class="btn bg-blue text-white mt-3" type="submit" value="Create">
                     </form>
                 </div>
@@ -520,16 +520,6 @@
             
             }
         })
-
-        
-
-        function formdisplay(Form){
-            if (Form.style.display === 'block') {
-                Form.style.display = 'none';
-            } else {
-                Form.style.display = 'block';
-            }
-        }
 
 
 

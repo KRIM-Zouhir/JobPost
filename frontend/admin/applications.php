@@ -67,7 +67,7 @@
             ?>
                         <div class="col-md-6 col-lg-4">
                             <div class="card h-100 shadow">
-                                <div class="card-footer d-flex flex-column mb-4">
+                                <div class="card-header d-flex flex-column mb-2">
                                         <?php
                                             if($application['status'] == "accepted"):
                                         ?>
@@ -77,7 +77,7 @@
                                         <?php
                                             elseif($application['status'] == "pending"):
                                         ?>
-                                                <button class="btn bg-blue text-white mt-3">
+                                                <button class="btn bg-light-gray  text-white mt-3">
                                                     Pending
                                                 </button>
                                         <?php
@@ -156,7 +156,7 @@
                                         if($application['status'] == "pending"):
                                     ?>
                                             <a>
-                                                <input class="btn stroke-blue text-blue" type="submit" value="Pending" disabled>
+                                                <input class="btn stroke-light-gray text-light-gray" type="submit" value="Pending" disabled>
                                             </a>
                                     <?php
                                     
@@ -165,7 +165,7 @@
                                             <form method="POST" action="../../backend/apply.php" >
                                                 <input type="hidden" name="form_type" value="pending">
                                                 <input type="hidden" name="id" value="<?php echo $application['app_id']; ?>">
-                                                <input class="btn bg-blue text-white" type="submit" value="Pending">
+                                                <input class="btn bg-light-gray text-white" type="submit" value="Pending">
                                             </form>
                                     <?php
                                         endif;

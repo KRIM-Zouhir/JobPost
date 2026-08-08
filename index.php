@@ -167,6 +167,9 @@
         .bg-success {
             background-color: #02823c !important; /* Bootstrap blue */
         }
+        .bg-light-gray {
+            background-color: #535353ff !important; /* Bootstrap blue */
+        }
         .text-white{
             color:  #F4F3F1;
         }
@@ -181,6 +184,9 @@
         }
         .text-success{
             color:  #02823c;
+        }
+        .text-light-gray {
+            color: #535353ff;
         }
 
         .stroke-white{
@@ -197,6 +203,9 @@
         }
         .stroke-success{
             border: 2px solid #02823c;
+        }
+        .stroke-light-gray {
+            border: 2px solid #535353ff; 
         }
 
         .mt-6 {

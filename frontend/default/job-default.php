@@ -4,6 +4,10 @@
     include './backend/post.php';
     include './backend/apply.php';
 
+    include_once './frontend/helpers/session-init.php';
+
+    $jobID = $_GET['job_id'] ?? null;
+    $post_ids = user_applied($db, $id);
 ?>
 
 <!DOCTYPE html>
@@ -17,10 +21,6 @@
     <div class="p-5 mt-5 text-white">
         <?php 
             // [$id , $role] = sessionstart(); 
-            $jobID = $_GET['job_id'] ?? null;
-            $post_ids = user_applied($db, $id);
-
-
 
             if($jobID){
                 $jobinfo = getpsotbyid($db , $jobID);
@@ -80,7 +80,7 @@
         <?php } ?>
 
         
-        <?php     
+        <?php
             if(empty($id) && empty($role)){?>
                 <form id="FormLogin" style="display: none;">
                     <h1>Login First then apply</h1>

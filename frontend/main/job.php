@@ -176,7 +176,11 @@
                                     $fetch = get_presets($db, $id , 0 , 10); 
                                     foreach($fetch as $preset){
                                 ?>
-                                    <option class="" value="<?php echo $preset['id'] ?>"><?php echo $preset['preset_name'] ?></option>
+                                    <option value="<?php echo $preset['id'] ?>"
+                                            data-cvname="<?php echo htmlspecialchars($preset['cv_name']) ?>"
+                                            data-covername="<?php echo htmlspecialchars($preset['cover_name'] ?? '') ?>"
+                                    ><?php echo $preset['preset_name'] ?>
+                                    </option>
                                 
                                 <?php
                                     }
@@ -187,12 +191,13 @@
 
                         <div class="pb-5">
 
-                            <label for="cvfile" >Drop your CV *</label>
+                            <label for="cvfile" id="drop-text" >Drop your CV *</label>
 
                             <label for="cvfile" class="drop-container" id="dropcontainer">
-                                <span class="drop-title">Drop files here</span>
+                                <span class="drop-title" id="drop-title">Drop files here</span>
                                 or
                                 <input type="file" id="cvfile"  name="cvfile" required>
+                                <input class="form-control shadow " type="text" id="cvdisplay"  name="cvdisplay" value="" style="display: none; width:350px; max-width: 100%; padding: 5px; border-radius: 10px ; border: 1px solid #1d1d1d;" disabled>
                             </label>
                         </div>
                         
@@ -203,6 +208,8 @@
                                 <span class="drop-title">Drop files here</span>
                                 or
                                 <input type="file" id="coverfile" name="coverfile">
+                                <input class="form-control shadow " type="text" id="coverdisplay"  name="coverdisplay" value="" style="display: none; width:350px; max-width: 100%; padding: 5px; border-radius: 10px ; border: 1px solid #1d1d1d;" disabled>
+
                             </label>
 
                         </div>
@@ -465,17 +472,46 @@
 
         const SelectPreset = document.getElementById('JobType');
         const presetIdInput = document.getElementById('preset_id');
+
         const CvInput = document.getElementById('cvfile');
+        const CvDisplay = document.getElementById('cvdisplay');
+
+        const CoverInput = document.getElementById('coverfile');
+        const CoverDisplay = document.getElementById('coverdisplay');
+
+        const DropTitle = document.getElementById('drop-title');
+        const DropText = document.getElementById('drop-text');
 
         SelectPreset.addEventListener('change', function(){
-            const selectedValue= this.value;
+            const selectedValue = this.value;
 
             if(this.selectedIndex === 0){
                 presetIdInput.value = "";
                 CvInput.required = true;
-            } else {
+            }else{
+                const selectedOption = this.options[this.selectedIndex];
+                const cvName = selectedOption.dataset.cvname;
+                const coverName = selectedOption.dataset.covername ?? 'No Cover';
+
                 presetIdInput.value = selectedValue;
+
                 CvInput.required = false;
+                CvInput.disabled = true ;
+                CvInput.style.display = 'none';
+
+                CoverInput.required = false;
+                CoverInput.disabled = true ;
+                CoverInput.style.display = 'none';
+
+                DropText.innerHTML = 'CV from Preset';
+                DropTitle.innerHTML = 'CV Imported';
+
+                CvDisplay.style.display = 'block';
+                CvDisplay.value = cvName;
+
+                CoverDisplay.style.display = 'block';
+                CoverDisplay.value = coverName ;
+                
             }
         })
 
