@@ -137,7 +137,7 @@
 
                                 </div>
 
-                                <div class="card-footer d-flex flex-column justify-content-left gap-1">
+                                <div class="card-footer d-flex  justify-content-left gap-1">
                                     <?php
                                         if($application['status'] == "accepted"):
                                     ?>
