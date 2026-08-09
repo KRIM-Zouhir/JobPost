@@ -4,7 +4,7 @@
     include './backend/apply.php';
     include './backend/search.php';
     include './backend/post.php';
-    include './backend/helpers.php';
+    include_once './backend/helper.php';
     include_once './frontend/helpers/session-init.php';
 
     [$id , $role] = sessionstart(); 
@@ -98,7 +98,8 @@
 
 
                                     <h6 class="card-subtitle">
-                                        <?php echo htmlspecialchars(id_to_user($db, $application['user_id'])); ?>
+                                        <?php 
+                                        echo id_to_user($db, $application['user_id']); ?>
                                     </h6>
 
                                     <h5 class="card-title fw-bold">
@@ -219,7 +220,7 @@
             global $pages;
 
             if(isset($_GET['page-nr']) && !isset($_GET['search'])){
-                $search_value =  htmlentities($_GET['search']) ?? '';
+                $search_value =  $_GET['search'] ?? '';
                 $pages = calcul($db , $table = "applications" , $rows_per_page);
 
                 $uri_search = '';
@@ -233,14 +234,13 @@
                 $uri_page_nr = '&page-nr=';
 
             }else{
-                $search_value =  htmlentities($_GET['search'])?? '';
+                $search_value =  $_GET['search']?? '';
                 $pages = calcul($db , $table = "applications" , $rows_per_page);
 
                 $uri_search = '';
                 $uri_page_nr = '/admin/applications?page-nr=';
 
             }
-
         
         ?>
         <div class="text-center">

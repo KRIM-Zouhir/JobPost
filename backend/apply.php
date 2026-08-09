@@ -148,6 +148,11 @@
 
     function get_applications($db, $start , $row_per_page){
         try{
+            if(isset($_GET['page-nr'])){
+                $page = $_GET['page-nr'] - 1 ;
+                $start = $page * $row_per_page;
+            }
+
             $applications = [];
             $table = "applications";
             $sql = "SELECT * FROM $table LIMIT $start, $row_per_page";
