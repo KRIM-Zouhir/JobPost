@@ -16,7 +16,6 @@
 </head>
 <body class="bg-blue">
     <?php 
-        // Check if its user 
         [$id , $role] = sessionstart(); 
         if($id === null && $role === null){
             header('Location: /login');
@@ -60,6 +59,29 @@
         </div>
 
         <div class="row g-4 mt-3">
+            <?php 
+                if((isset($_SESSION['message']))):
+                    if($_SESSION['message_type'] == "error"){
+            ?>
+                <div class="alert alert-danger text-center" style="font-size: 14px;">
+                    <?php echo htmlentities($_SESSION['message']);  ?>
+                </div>
+            
+                <?php unset($_SESSION['message']); ?>
+            <?php 
+                }else{
+            ?>
+                <div class="alert alert-success text-center" style="font-size: 14px;">
+                    <?php echo htmlentities($_SESSION['message']);  ?>
+                </div>
+            
+                <?php unset($_SESSION['message']); ?>
+            <?php 
+                }
+            
+                endif;
+            ?>
+
             <?php 
                 if(!isset($_GET['search'])){
                     $alljobs = getpost($db , $start, $rows_per_page);
@@ -211,7 +233,7 @@
                 
                 <form class="d-flex flex-column justify-content-center align-items-center quicksand-regular" method="POST" action="../../backend/post.php" id="FormNewPost">
                     <input type="hidden" name="form_type" value="NewJob"> 
-                    <input type="hidden" name="redirect_to" value="/profile"> 
+                    <input type="hidden" name="redirect_to" value="/admin/admin-posts"> 
 
                     <div class="form-outline w-75 mb-2" data-mdb-input-init>
                         <label class="form-label" for="job_title">Job Title</label>
@@ -247,12 +269,6 @@
 
 
                     <div class="form-outline w-75  mb-2" data-mdb-input-init>
-                        <label class="form-label" for="job_desc">Job Description</label>
-                        <input class="form-control b-5 shadow" type="text" name="Description" id="job_desc" style="font-size: 14px;" required>  
-                    </div>
-
-
-                    <div class="form-outline w-75  mb-2" data-mdb-input-init>
                         <label class="form-label" for="job_salary">Job Salary</label>
                         <input class="form-control b-5 shadow" type="text" name="Salary" id="job_salary" style="font-size: 14px;" required>  
                     </div>
@@ -282,7 +298,7 @@
                 
                 <form class="d-flex flex-column justify-content-center align-items-center quicksand-regular"  method="POST" action="../../backend/post.php">
                     <input type="hidden" name="form_type" value="EditJob"> 
-                    <input type="hidden" name="redirect_to" value="/profile"> 
+                    <input type="hidden" name="redirect_to" value="/admin/admin-posts"> 
                     <input type="hidden" name="PostId">
 
                     
@@ -349,7 +365,7 @@
                 </button>
                 <form  class="d-flex flex-column justify-content-center align-items-center quicksand-regular" method="POST" action="../../backend/post.php">
                     <input type="hidden" name="form_type" value="DeleteJob"> 
-                    <input type="hidden" name="redirect_to" value="/profile"> 
+                    <input type="hidden" name="redirect_to" value="/admin/admin-posts"> 
                     <input type="hidden" name="PostId">
                     <input type="hidden" name="PostTitle">
 

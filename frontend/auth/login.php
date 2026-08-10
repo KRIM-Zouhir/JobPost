@@ -43,7 +43,20 @@
                     <form  class="d-flex flex-column justify-content-center align-items-center quicksand-regular" method="POST" action="../backend/auth.php">
                         <input type="hidden" name="form_type" value="login">
 
+
                         <div class="flex justify-content-center">
+
+                        <?php 
+                            if( (isset($_SESSION['error']))):
+                        ?>
+                            <div class="alert alert-danger text-center" style="font-size: 14px;">
+                                <?php echo htmlentities($_SESSION['error']);  ?>
+                            </div>
+                            
+                            <?php unset($_SESSION['error']); ?>
+                        <?php 
+                            endif;
+                        ?>
                             <div class="form-outline mb-2" data-mdb-input-init>
                                 <label class="form-label" for="input_user">Username / Email</label>
                                 <input class="form-control shadow " type="text" name="username" id="input_user" style="font-size: 14px;" value="<?php echo $userinfo ?>" required>  

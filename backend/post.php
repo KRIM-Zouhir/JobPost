@@ -40,21 +40,28 @@
             
             if($form_type == "NewJob"){
                 [$jobtitle, $jobcompany,$joblocation,$jobtype,$jobdescription,$jobsalry,$jobplace,$is_active] = jobinfo();
-                if(newpost($db ,$admin_id ,$jobtitle ,$jobcompany ,$joblocation ,$jobtype ,$jobdescription ,$jobsalry ,$jobplace, $is_active))
-                {
-                    echo "Post created";
+                if(newpost($db ,$admin_id ,$jobtitle ,$jobcompany ,$joblocation ,$jobtype ,$jobdescription ,$jobsalry ,$jobplace, $is_active)){
+                    $_SESSION['message'] = "Job created successfully!";
+                    $_SESSION['message_type'] = "success";
                 }else{
-                    echo "Failed"; 
+                    $_SESSION['message'] = "Job creation failed!";
+                    $_SESSION['message_type'] = "error";
                 }
                 $redirect = $_POST['redirect_to'] ?? '/profile';
                 header("Location: $redirect");
-                
                 exit;
             }
             elseif($form_type == "EditJob"){
                 $jobid= htmlentities($_POST['PostId']);
                 [$jobtitle, $jobcompany,$joblocation,$jobtype,$jobdescription,$jobsalry,$jobplace,$is_active] = jobinfo();
-                editpost($db ,$jobid ,$admin_id ,$jobtitle ,$jobcompany ,$joblocation ,$jobtype ,$jobdescription ,$jobsalry ,$jobplace, $is_active);
+                if(editpost($db ,$jobid ,$admin_id ,$jobtitle ,$jobcompany ,$joblocation ,$jobtype ,$jobdescription ,$jobsalry ,$jobplace, $is_active)){
+                    $_SESSION['message'] = "Job edited successfully!";
+                    $_SESSION['message_type'] = "success";
+                }else{
+                    $_SESSION['message'] = "Job edition failed!";
+                    $_SESSION['message_type'] = "error";
+                }
+
                 $redirect = $_POST['redirect_to'] ?? '/profile';
                 header("Location: $redirect");
                 exit;
@@ -62,19 +69,22 @@
             elseif($form_type == "DeleteJob"){
                 $jobid= htmlentities($_POST['PostId']);
                 $confirmation= htmlentities($_POST['ConfirmDelete']);
-                if($confirmation == "CONFIRM"){
-                    deletepost($db, $jobid);
-                    $_SESSION['message'] = "Job deleted successfully!";
-                    $_SESSION['message_type'] = "success";
-                    $redirect = $_POST['redirect_to'] ?? '/profile';
-                    header("Location: $redirect");
+                if($confirmation == "CONFIRM" OR $confirmation == "confirm"){
+                    if(deletepost($db, $jobid)){
+                        $_SESSION['message'] = "Job deleted successfully!";
+                        $_SESSION['message_type'] = "success";
+                    }
+                    else{
+                        $_SESSION['message'] = "Job deletion failed!";
+                        $_SESSION['message_type'] = "error";
+                    }
+                }else{
+                        $_SESSION['message'] = "Confirmation message is wrong!";
+                        $_SESSION['message_type'] = "error";
                 }
-                else{
-                    $_SESSION['message'] = "Confirmation failed!";
-                    $_SESSION['message_type'] = "error";
-                    $redirect = $_POST['redirect_to'] ?? '/profile';
-                    header("Location: $redirect");
-                }
+                $redirect = $_POST['redirect_to'] ?? '/profile';
+                header("Location: $redirect");
+                exit;
             }
 
             exit;
@@ -88,7 +98,7 @@
         try {
                 $table = "posts" ; 
                 $sql = "INSERT INTO "  . $table . "(admin_id, title, company, location,type,description, salary, is_active) VALUES (:admin_id , :title, :company , :location, :type , :description , :salary, :is_active)";
-
+                session_start();
 
                 $stmt = $db->prepare($sql);
                 $stmt->bindValue(':admin_id', $admin_id);
@@ -101,10 +111,9 @@
                 $stmt->bindValue(':is_active', $is_active);
 
                 $stmt->execute();
-                return true ;
+                return true;
 
         }catch (PDOException $e){
-                echo "An error has occured!" . $e;
                 return false;
         }
         

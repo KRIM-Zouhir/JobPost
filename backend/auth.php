@@ -37,20 +37,11 @@
             }
 
             if(str_contains($login_user, "@")){
-                if(login($db, $username = '' , $login_user, $login_pwd)){
-                    header("Location: /profile");
-                    exit;
-                }
-
+                    login($db, $username = '' , $login_user, $login_pwd);
             }else{
-                if(login($db, $login_user, $email = '', $login_pwd)){
-                    header("Location: /profile");
-                    exit;
+                    login($db, $login_user, $email = '', $login_pwd);
                 }
-            }
-
-
-
+            
         }
 
         elseif($form_type == 'changepwd'){
@@ -161,16 +152,21 @@
                     echo "User isnt verified";
                     exit;
                 }else{
+                    session_start();
+                    
                     $fetched_pwd = htmlentities($fetch['password']);
     
                     if(password_verify($password , $fetched_pwd)){
-                        session_start();
                         $_SESSION['user_id'] = $fetch['id'];
                         $_SESSION['username'] = $fetch['username'];
                         $_SESSION['role'] = $fetch['role'];
-                        return true;
-                    }elseif($fetched_pwd != $password){
-                        echo "Password is incorrect ";
+                        header("Location: /profile");
+                        exit;
+
+                    }elseif( $fetched_pwd != $password ){
+                        $_SESSION['error'] = "Password is incorrect" ;
+                        header("Location: /login");
+                        exit;
                     }
                 }
             }
