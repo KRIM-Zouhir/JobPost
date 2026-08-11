@@ -22,8 +22,8 @@ A simple PHP web application providing a frontend and backend for managing posts
 1. Clone the repository to your web server document root:
 
 ```bash
-git clone <repo-url> WebsitePhP
-cd WebsitePhP
+git git@github.com:KRIM-Zouhir/JobPost.git clone 
+cd JobPost
 ```
 
 2. Install PHP dependencies with Composer:
