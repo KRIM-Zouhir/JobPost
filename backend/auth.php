@@ -1,8 +1,7 @@
 <?php 
     
-    require_once __DIR__ . '/connect.php';
+    require_once __DIR__ .  '/connect.php';
     require_once __DIR__ . '/helper.php';
-
 
 
     if( $_SERVER['REQUEST_METHOD'] == 'POST'){

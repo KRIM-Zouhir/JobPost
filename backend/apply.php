@@ -48,11 +48,10 @@
 
                 
                 if(newapply($db , $user_id, $post_id, $post_title, $cv_name , $cover_name , $status)){
-                    header("Location: /jobs");
-                }else{
-                    echo "An error has occured";
+                    $redirect = $_POST['redirect_to'] ?? '/admin/applications';
+                    header("Location: $redirect");
+                    exit;
                 }
-
             }catch(PDOException $e){
                 echo "An error has occured <br> $e";
             }
@@ -60,8 +59,10 @@
             try{
                 $id = htmlentities($_POST['id']);
                 status_application($db , $id , $status = "accepted");
-                header("Location: /admin/applications");
 
+                $redirect = $_POST['redirect_to'] ?? '/admin/applications';
+                header("Location: $redirect");
+                exit;
             }catch(PDOException $e){
                 echo $e;
             }
@@ -70,7 +71,9 @@
             try{
                 $id = htmlentities($_POST['id']);
                 status_application($db , $id , $status = "pending");
-                header("Location: /admin/applications");
+                $redirect = $_POST['redirect_to'] ?? '/admin/applications';
+                header("Location: $redirect");
+                exit;
 
             }catch(PDOException $e){
                 echo $e;
@@ -80,7 +83,9 @@
             try{
                 $id = htmlentities($_POST['id']);
                 status_application($db , $id , $status = "rejected");
-                header("Location: /admin/applications");
+                $redirect = $_POST['redirect_to'] ?? '/admin/applications';
+                header("Location: $redirect");
+                exit;
 
             }catch(PDOException $e){
                 echo $e;

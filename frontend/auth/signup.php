@@ -1,4 +1,12 @@
-<?php include './frontend/header.php' ?>
+<?php 
+    include_once './frontend/helpers/session-init.php';
+    
+    if($id && $role){
+        header('Location: /profile');
+    }
+
+    include './frontend/header.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,12 +16,6 @@
     
 </head>
 <body class="bg-blue">
-    <?php 
-        [$id , $role] = sessionstart(); 
-        if($id && $role){
-            header('Location: /profile');
-        }
-    ?>
     <div class="p-5 mt-5">
 
     

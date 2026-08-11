@@ -331,17 +331,21 @@
 
                 <?php
                         }for($i = $before; $i <= $next; $i++){
-                            if(isset($_GET['page-nr']) && $i == $_GET['page-nr']){
+                            if($i == $actual){
                 ?>
-                                <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $i ?>" class="btn stroke-white text-white"><?php echo $i ?></a>
+                                <a  href="<?php echo $uri_search . $search_value . $uri_page_nr . $i ?>" 
+                                    class="btn stroke-white text-white"><?php echo $i ?>
+                                </a>
                 <?php
                             }else{
                                 if(!empty($pages)){
                 ?>
-                                <a href="<?php echo $uri_search . $search_value . $uri_page_nr; ?><?php echo $i ?>" class="btn bg-white text-blue"><?php echo $i ?></a>
-                <?php  
-                        }
-                        }}
+                                        <a  href="<?php echo $uri_search . $search_value . $uri_page_nr . $i ?>"
+                                            class="btn bg-white text-blue"><?php echo $i ?>
+                                        </a>
+
+                <?php
+                        }}}
                         
                 ?>
                 </div>

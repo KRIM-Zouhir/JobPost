@@ -117,6 +117,7 @@
                                         ?>
                                             <form method="POST" action="../../backend/apply.php" >
                                                 <input type="hidden" name="form_type" value="accept">
+                                                <input type="hidden" name="redirect_to" value="/admin/applications/<?= $jobID ?>">
                                                 <input type="hidden" name="id" value="<?php echo $application['app_id']; ?>">
                                                 <input class="btn bg-success text-white" type="submit" value="Accept" >
                                             </form>
@@ -134,7 +135,9 @@
                                         ?>
                                                 <form method="POST" action="../../backend/apply.php" >
                                                     <input type="hidden" name="form_type" value="pending">
+                                                    <input type="hidden" name="redirect_to" value="/admin/applications/<?= $jobID ?>">
                                                     <input type="hidden" name="id" value="<?php echo $application['app_id']; ?>">
+                                                    
                                                     <input class="btn bg-light-gray text-white" type="submit" value="Pending">
                                                 </form>
                                         <?php
@@ -149,6 +152,7 @@
                                         ?>
                                             <form method="POST" action="../../backend/apply.php" >
                                                 <input type="hidden" name="form_type" value="deny">
+                                                <input type="hidden" name="redirect_to" value="/admin/applications/<?= $jobID ?>">
                                                 <input type="hidden" name="id" value="<?php echo $application['app_id']; ?>">
                                                 <input class="btn bg-danger text-white" type="submit" value="Deny">
                                             </form>

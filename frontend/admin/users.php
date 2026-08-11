@@ -1,8 +1,4 @@
 <?php 
-    include './frontend/header.php';
-    include './backend/auth.php';
-    include './backend/connect.php';
-    include './backend/search.php';
     include_once './frontend/helpers/session-init.php';
 
     if($id === null && $role === null){
@@ -16,6 +12,12 @@
         $rows_per_page = 9 ;
 
 
+    include './frontend/header.php';
+    include './backend/auth.php';
+    include './backend/connect.php';
+    include './backend/search.php';
+
+
 ?>
 
 <!DOCTYPE html>
@@ -23,15 +25,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin</title>
+    <title>Admin</title>=
 </head>
 <body class="bg-blue">
 
-    <div class="p-5 mt-5 text-white">
+    <div class="p-5 mt-5">
 
 
         <div class="d-flex align-items-center justify-content-between">
-            <h3 class="damion-regular fs-2">Applications</h3>
+            <h3 class="damion-regular fs-2">Users</h3>
             <form method="GET" action="/admin/users">
                 <div class="search-container">
                     <input  type="text" 
@@ -65,15 +67,52 @@
             ?>
                 <div class="col-md-6 col-lg-4">
                         <div class="card h-100 shadow">
-                            <div class="card-header">
 
-                                    <p class="card-subtitle ">
-                                        <?php echo htmlspecialchars($user['user_id']); ?>
-                                    </p>
-                                    <p class="fw-bold mb-1">
-                                        <?php echo htmlspecialchars(strtoupper($user['user_role'])) ; ?>
-                                    </p>
+                        
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center">
+                                        <div class="">
+                                            <p class="card-subtitle ">
+                                                <?php echo htmlspecialchars($user['user_id']); ?>
+                                            </p>
+                                            <p class="fw-bold">
+                                                <?php 
+                                                    if($user['user_role'] == "admin"):
+                                                ?>
+                                                    <p class="fw-bold text-danger">
+                                                        ADMIN
+                                                    </p>
+                                                <?php
+                                                    else:
+                                                ?>
+                                                    <p class="fw-bold text-success">
+                                                        USER
+                                                    </p>
+                                                <?php
+                                                    endif;
+                                                ?>
+                                        </div>
+                                        <?php 
+                                            if($user['is_verified'] == 1):
+                                        ?>
+                                            <p class="btn stroke-success fw-bold text-success">
+                                                Verified
+                                            </p>
+                                        <?php
+                                            else:
+                                        ?>
+                                            <p class="btn stroke-danger fw-bold text-danger">
+                                                Not Verified
+                                            </p>
+                                        <?php
+                                            endif;
+                                        ?>
+                                        
+                                    </div>
+
                             </div>
+
+
                             <div class="card-body d-flex flex-column justify-content-center gap-1">
 
 
@@ -86,21 +125,7 @@
                                     </h6>
 
 
-                                    <?php 
-                                        if($user['is_verified'] == 0):
-                                    ?>
-                                            <p class="fw-bold text-danger mb-1">
-                                                Not Verified
-                                            </p>
-                                    <?php
-                                        else:
-                                    ?>
-                                            <p class="fw-bold text-success mb-1">
-                                                Verified
-                                            </p>
-                                    <?php
-                                        endif;
-                                    ?>
+                                    
 
                                     <p class="mb-1">
                                         <strong>Token:</strong>
@@ -113,26 +138,26 @@
                                     </p>
 
                                     <p class="mb-1">
-                                        <strong>Created acc:</strong>
+                                        <strong>Created at:</strong>
                                         <?php echo htmlspecialchars(date("M d, Y H:i A", strtotime($user['user_date']))); ?>
                                     </p>
                             </div>
 
                             <div class="card-footer">
                                     <button type="button" class="btn bg-blue text-white BtnEditInfo" 
-                                        data-userid="<?php htmlentities($user['user_id']) ?>" 
-                                        data-username="<?php htmlentities($user['user_name']) ?>" 
-                                        data-useremail="<?php htmlentities($user['user_email']) ?>" 
-                                        data-userrole="<?php htmlentities($user['user_role']) ?>" 
-                                        data-verified="<?php htmlentities($user['is_verified']) ?>"  
-                                        data-token="<?php htmlentities($user['verification_token']) ?>"
-                                        data-token_expires="<?php htmlentities($user['token_expires_at']) ?>"
-                                        data-userdate="<?php htmlentities($user['user_date']) ?>" 
+                                        data-userid="<?=  htmlentities($user['user_id']) ?>" 
+                                        data-username="<?= htmlentities($user['user_name']) ?>" 
+                                        data-useremail="<?= htmlentities($user['user_email']) ?>" 
+                                        data-userrole="<?= htmlentities($user['user_role']) ?>" 
+                                        data-verified="<?= htmlentities($user['is_verified']) ?>"  
+                                        data-token="<?= htmlentities($user['verification_token']) ?>"
+                                        data-token_expires="<?=  htmlentities($user['token_expires_at']) ?>"
+                                        data-userdate="<?= htmlentities($user['user_date']) ?>" 
                                         >Edit Infos
                                     </button>
 
                                     <button type="button" class="btn btn-danger text-white BtnChangePwd" 
-                                            data-userid="<?php htmlentities($user['user_id']) ?>"
+                                            data-userid="<?= htmlentities($user['user_id']) ?>"
                                             >Change Password
                                     </button>
                             </div>
@@ -152,40 +177,97 @@
             ?>
         </div>
 
+        <div class="d-flex align-items-center justify-content-center" >
+            <div class="card p-5 w-25 Form"  id="FormEditInfos" style="display:none;">
 
-        <form method="POST" action="../../backend/auth.php" id="FormEditInfos" style="display: none;">
-            <input type="hidden" name="form_type" value="edit_info">
-            <input type="hidden" name="user_id">
+                <button class="btn btn-close" id="btnclose" type="button" aria-label="Close">
+                </button>
+                
 
-            <input type="text" name="user_name">
-            <br>
-            <input type="text" name="user_email">
-            <br>
-            <input type="text" name="user_role">
-            <br>
-            <select name="user_verified" placeholder="Is Verified">
-                <option value="1">Verify</option>
-                <option value="0">Unverify</option>
-            </select>
-            <!-- <input type="text" name="user_verified"> -->
-            <br>
-            <input type="text" name="user_token">
-            <br>
-            <input type="datetime-local" name="user_tokenexpire">
-            <br>
-            <input type="datetime-local" name="user_date">
-            <br>
-            <input type="submit" name="submit" value="Update">
-        </form>
+                <form class="d-flex flex-column justify-content-center align-items-center quicksand-regular" method="POST" action="../../backend/auth.php">
+                    <input type="hidden" name="form_type" value="edit_info">
+                    <input type="hidden" name="user_id">
+
+                    <div class="form-outline w-75  mb-2" data-mdb-input-init>
+                        <label class="form-label" for="user_name">Username</label>
+                        <input class="form-control b-5 shadow" type="text" name="user_name" id="user_name" style="font-size: 14px;">
+                    </div>
+
+                    <div class="form-outline w-75  mb-2" data-mdb-input-init>
+                        <label class="form-label" for="user_name">Email</label>
+                        <input class="form-control b-5 shadow" type="text" name="user_email" id="user_email" style="font-size: 14px;">
+                    </div>
+
+                    <div class="form-outline w-75  mb-2" data-mdb-input-init>
+                        <label class="form-label" for="user_role">Role</label>
+                        <input class="form-control b-5 shadow" type="text" name="user_role" id="user_role" style="font-size: 14px;">
+                    </div>
+                
+                    <div class="form-outline mb-3 w-75">
+                        <label class="form-label" for="user_verified">Select</label>
+                        <select class="form-select mb-2 text-blue shadow" name="user_verified" placeholder="Is Verified">
+                            <option selected disabled>ٍVerify / Unverify</option>
+                            <option value="1">Verify</option>
+                            <option value="0">Unverify</option>
+                        </select>
+                    </div>
+
+                    <div class="form-outline w-75  mb-2" data-mdb-input-init>
+                        <label class="form-label" for="user_token">Token</label>
+                        <input class="form-control b-5 shadow" type="text" name="user_token" id="user_token" style="font-size: 14px;">
+                    </div>
+                    <div class="form-outline w-75  mb-2" data-mdb-input-init>
+                        <label class="form-label" for="user_tokenexpire">Token Expire at</label>
+                        <input class="form-control b-5 shadow" type="text" name="user_tokenexpire" id="user_tokenexpire" style="font-size: 14px;">
+                    </div>
+                    <div class="form-outline w-75  mb-2" data-mdb-input-init>
+                        <label class="form-label" for="user_date">Created At</label>
+                        <input class="form-control b-5 shadow" type="text" name="user_date" id="user_date" style="font-size: 14px;">
+                    </div>
+
+                    <input class="btn bg-blue text-white" type="submit" name="submit" value="Update">
+                </form>
+            </div>
+        </div>  
 
 
-        <form method="POST" action="/backend/auth.php" id="FormChangePwd" style="display: none;">
-            <input type="hidden" name="form_type" value="changepwd">
-            <input type="hidden" name="user_id">
-            <input type="text" name="new_pwd" placeholder="New Password">
-            <br>
-            <input type="submit" value="Change">
-        </form>
+
+        <div id="modalOverlay" style="display:none;"></div>
+        <div class="d-flex align-items-center justify-content-center" >
+            <div class="card p-5 w-25 Form"  id="FormChangePwd" style="display:none;">
+
+                <button class="btn btn-close" id="btnclose1" type="button" aria-label="Close">
+                </button>
+
+                <form class="d-flex flex-column justify-content-center align-items-center quicksand-regular" method="POST" action="/backend/auth.php">
+                    <input type="hidden" name="form_type" value="changepwd">
+                    <input type="hidden" name="user_id">
+
+                    <div class="form-outline w-75 mb-2" data-mdb-input-init>
+                        <label class="form-label" for="new_pwd">New Password</label>
+                        <div class="d-flex align-items-center gap-1">
+                            <input class="form-control b-5 shadow" type="password" id="new_pwd" name="new_pwd" style="font-size: 14px;">
+                            <button class="btn bg-blue text-white" type="button" id="showpwd">
+                                <i class="bi bi-eye"></i>
+                            </button> 
+                        </div>
+                    </div>
+
+                    <div class="form-outline w-75 mb-2" data-mdb-input-init>
+                        <label class="form-label" for="confirm_new_pwd">Confirm New Password</label>
+
+                        <div class="d-flex align-items-center gap-1">
+                            <input class="form-control b-5 shadow" type="password" id="confirm_new_pwd" name="confirm_new_pwd" style="font-size: 14px;">
+                            <button class="btn bg-blue text-white" type="button" id="showconfirmpwd">
+                                <i class="bi bi-eye"></i>
+                            </button> 
+                        </div>
+                    </div>
+
+                    <input class="btn bg-blue text-white mt-2" type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
 
     </div>
 
@@ -278,7 +360,7 @@
 
                 <?php
                         }for($i = $before; $i <= $next; $i++){
-                            if(isset($_GET['page-nr']) && $i == $_GET['page-nr']){
+                            if($i == $actual){
                 ?>
                                 <a  href="<?php echo $uri_search . $search_value . $uri_page_nr . $i ?>" 
                                     class="btn stroke-white text-white"><?php echo $i ?>
@@ -287,12 +369,12 @@
                             }else{
                                 if(!empty($pages)){
                 ?>
-                                <a  href="<?php echo $uri_search . $search_value . $uri_page_nr . $i ?>" 
-                                    class="btn bg-white text-blue"><?php echo $i ?>
-                                </a>
-                <?php  
-                        }
-                        }}
+                                        <a  href="<?php echo $uri_search . $search_value . $uri_page_nr . $i ?>"
+                                            class="btn bg-white text-blue"><?php echo $i ?>
+                                        </a>
+
+                <?php
+                        }}}
                         
                 ?>
                 </div>
@@ -303,7 +385,7 @@
                     if(!isset($_GET['page-nr'])){
                         if($pages > 1){
                 ?>
-                            <a  href="<?php echo $uri_search . $search_value . $uri_page_nr; ?>2" 
+                            <a  href="<?php echo $uri_search . $search_value . $uri_page_nr; ?>2"
                                 class="btn bg-white text-blue"
                                 ><i class="bi bi-caret-right-fill"></i>
                             </a>
@@ -311,13 +393,17 @@
                 <?php
                         }elseif($pages <= 1 ){ 
                 ?>
-                            <a class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
+                            <a class="btn bg-white text-blue">
+                                <i class="bi bi-caret-right-fill"></i>
+                            </a>
                 <?php   }
                 
                     }else{
                         if($_GET['page-nr'] >= $pages){
                 ?>
-                            <a class="btn bg-white text-blue"><i class="bi bi-caret-right-fill"></i></a>
+                            <a class="btn bg-white text-blue">
+                                <i class="bi bi-caret-right-fill"></i>
+                            </a>
                 <?php
                         }else{
                 ?>
@@ -330,7 +416,7 @@
                 ?>
             
                 <?php
-                    } 
+                    }
                 ?>
 
                 <?php
@@ -356,21 +442,11 @@
 
     
     <script>
+        const FormEditInfos = document.getElementById("FormEditInfos");
+        const overlay = document.getElementById('modalOverlay');
+
+
         document.addEventListener('click', function(e){
-            if(e.target.classList.contains('BtnChangePwd')){
-                $user_id = e.target.dataset.userid;
-                
-                document.querySelector('#FormChangePwd [name="user_id"]').value = $user_id;
-                
-                const form = document.getElementById('FormChangePwd') 
-                form.style.display = form.style.display === 'none' ? 'block' : 'none';
-                
-                
-            }
-        // })
-        
-        
-        // document.addEventListener('click', function(e){
             if(e.target.classList.contains('BtnEditInfo')){
                 const userData={
                     userid: e.target.dataset.userid,
@@ -392,15 +468,73 @@
                 document.querySelector('#FormEditInfos [name="user_tokenexpire"]').value = userData.usertokenexpire;
                 document.querySelector('#FormEditInfos [name="user_date"]').value = userData.userdate;
                 
-                const FormEditInfos = document.getElementById("FormEditInfos");
+
+                overlay.style.display = FormEditInfos.style.display === 'none' ? 'block' : 'none';
                 FormEditInfos.style.display = FormEditInfos.style.display === 'none' ? 'block' : 'none';
+
                 
             }
-            
+        })
+
+
+        document.addEventListener('click', function(e){
+            if(e.target.classList.contains('BtnChangePwd')){
+                $user_id = e.target.dataset.userid;
+                
+                document.querySelector('#FormChangePwd [name="user_id"]').value = $user_id;
+                
+                const form = document.getElementById('FormChangePwd') 
+                overlay.style.display = form.style.display === 'none' ? 'block' : 'none';
+                form.style.display = form.style.display === 'none' ? 'block' : 'none';
+                
+                
+            }
+        })
+
+        const closebtn = document.getElementById('btnclose');
+
+        closebtn.addEventListener('click', function(){
+            overlay.style.display = FormEditInfos.style.display === 'block' ? 'none' : 'block';
+            FormEditInfos.style.display = FormEditInfos.style.display === 'block' ? 'none' : 'block';
         })
         
+        const closebtn1 = document.getElementById('btnclose1');
+        const FormChangePwd = document.getElementById('FormChangePwd') 
+
+
+        closebtn1.addEventListener('click', function(){
+            overlay.style.display = FormChangePwd.style.display === 'block' ? 'none' : 'block';
+            FormChangePwd.style.display = FormChangePwd.style.display === 'block' ? 'none' : 'block';
+        })
         
+
+        const input_pwd = document.getElementById('new_pwd');
+        const input_confirmpwd = document.getElementById('confirm_new_pwd');
+
+        function check_pwd(){
+            if(input_pwd.value !== input_confirmpwd.value){
+                input_confirmpwd.setCustomValidity("Passwords do not match");
+            } else {
+                input_confirmpwd.setCustomValidity("");
+            }
+        }
         
+        input_pwd.addEventListener('input' , check_pwd);
+        input_confirmpwd.addEventListener('input' , check_pwd);
+        
+        const showpwd = document.getElementById('showpwd');
+        const showconfirmpwd = document.getElementById('showconfirmpwd');
+
+
+        showpwd.onclick = function(){
+            input_pwd.type = input_pwd.type === 'password' ? 'text' : 'password';
+
+        }
+
+        showconfirmpwd.onclick = function(){
+            input_confirmpwd.type = input_confirmpwd.type === 'password' ? 'text' : 'password';
+        }
+
         </script>
     
 </body>

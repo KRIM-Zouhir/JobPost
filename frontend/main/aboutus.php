@@ -11,8 +11,9 @@
 </head>
 <body class="bg-blue">
 
-    <div class="bg-blue" style="padding-top: 10rem; padding-bottom:15rem;">
+    <div class="bg-blue d-flex flex-column justify-content-center align-items-center" style="padding-top: 10rem;">
         <h3 class="damion-regular fs-2 text-white text-center">About Us</h3>
+        <img class="img-logo" src="/assets/img/fulllogo.png" alt="fulllogo">
     </div>
 
     <div class="container-fluid hero bg-white rounded p-5">
@@ -120,10 +121,16 @@
     ?>
     
     <style>
+        .img-logo{
+            max-width: 600px;
+            height: auto;
+            transform: translateY(-75px); 
+
+        }
 
         .big-card {
-            width: 500px;
-            height: 500px;
+            width: 600px;
+            height: auto;
             transition: transform 0.3s ease-in-out;
 
         }

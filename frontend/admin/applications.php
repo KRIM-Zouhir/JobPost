@@ -149,6 +149,7 @@
                                     ?>
                                         <form method="POST" action="../../backend/apply.php" >
                                             <input type="hidden" name="form_type" value="accept">
+                                            <input type="hidden" name="redirect_to" value="/admin/applications">
                                             <input type="hidden" name="id" value="<?php echo $application['app_id']; ?>">
                                             <input class="btn bg-success text-white" type="submit" value="Accept" >
                                         </form>
@@ -166,6 +167,7 @@
                                     ?>
                                             <form method="POST" action="../../backend/apply.php" >
                                                 <input type="hidden" name="form_type" value="pending">
+                                                <input type="hidden" name="redirect_to" value="/admin/applications">
                                                 <input type="hidden" name="id" value="<?php echo $application['app_id']; ?>">
                                                 <input class="btn bg-light-gray text-white" type="submit" value="Pending">
                                             </form>
@@ -181,6 +183,7 @@
                                     ?>
                                         <form method="POST" action="../../backend/apply.php" >
                                             <input type="hidden" name="form_type" value="deny">
+                                            <input type="hidden" name="redirect_to" value="/admin/applications">
                                             <input type="hidden" name="id" value="<?php echo $application['app_id']; ?>">
                                             <input class="btn bg-danger text-white" type="submit" value="Deny">
                                         </form>
@@ -300,7 +303,7 @@
 
                 <?php
                         }for($i = $before; $i <= $next; $i++){
-                            if(isset($_GET['page-nr']) && $i == $_GET['page-nr']){
+                            if($i == $actual){
                 ?>
                                 <a  href="<?php echo $uri_search . $search_value . $uri_page_nr . $i ?>" 
                                     class="btn stroke-white text-white"><?php echo $i ?>
@@ -309,12 +312,12 @@
                             }else{
                                 if(!empty($pages)){
                 ?>
-                                <a  href="<?php echo $uri_search . $search_value . $uri_page_nr . $i ?>" 
-                                    class="btn bg-white text-blue"><?php echo $i ?>
-                                </a>
-                <?php  
-                        }
-                        }}
+                                        <a  href="<?php echo $uri_search . $search_value . $uri_page_nr . $i ?>"
+                                            class="btn bg-white text-blue"><?php echo $i ?>
+                                        </a>
+
+                <?php
+                        }}}
                         
                 ?>
                 </div>
@@ -375,7 +378,9 @@
         </div>
     </div>
 
-    <?php endif; ?>
-
+    
 </body>
 </html>
+
+
+<?php endif; ?>

@@ -1,4 +1,16 @@
 <?php 
+        include_once './frontend/helpers/session-init.php';
+
+        if($id === null && $role === null){
+            header('Location: /home');
+        }
+        if($role === "user"):
+            header("Location: /home");
+        
+        elseif($role === "admin"):
+            $start= 0;
+            $rows_per_page = 9;
+
         include './frontend/header.php' ;
         include './backend/connect.php';
         include './backend/post.php';
@@ -15,20 +27,6 @@
     <title>Admin Posts</title>
 </head>
 <body class="bg-blue">
-    <?php 
-        [$id , $role] = sessionstart(); 
-        if($id === null && $role === null){
-            header('Location: /login');
-        }
-        if($role === "user"):
-            header("Location: /home");
-
-        elseif($role === "admin"):
-            $start= 0;
-            $rows_per_page = 9;
-
-           
-    ?>   
 
     <div class="p-5 mt-5">
 
@@ -54,7 +52,9 @@
                 </div>
             </form>
 
-            <button type="button" id="BtnNewJob" class="btn bg-white text-blue"><i class="bi bi-plus"></i>New Job</button>
+            <button type="button" id="BtnNewJob" class="btn bg-white text-blue"><i class="bi bi-plus"></i>
+                New Job
+            </button>
 
         </div>
 
@@ -231,7 +231,7 @@
                 <button class="btn btn-close" id="btnclose" type="button" aria-label="Close">
                 </button>
                 
-                <form class="d-flex flex-column justify-content-center align-items-center quicksand-regular" method="POST" action="../../backend/post.php" id="FormNewPost">
+                <form class="d-flex flex-column justify-content-center align-items-center quicksand-regular" method="POST" action="../../backend/post.php">
                     <input type="hidden" name="form_type" value="NewJob"> 
                     <input type="hidden" name="redirect_to" value="/admin/admin-posts"> 
 
@@ -290,7 +290,6 @@
 
         
         <!-- FORM EDIT JOBS -->
-        <div id="modalOverlay" style="display:none;"></div>
         <div class="d-flex align-items-center justify-content-center" >
             <div class="card p-5 w-25 Form" id="FormEditJob" style="display:none;">
                 <button class="btn btn-close" id="btnclose1" type="button" aria-label="Close">
@@ -358,7 +357,6 @@
         
 
         <!-- FORM CONFIRM DELETE -->
-        <div id="modalOverlay" style="display:none;"></div>
         <div class="d-flex align-items-center justify-content-center" >
             <div class="card p-5 w-25 Form" id="FormDeleteJob" style="display: none;">
                 <button class="btn btn-close" id="btnclose2" type="button" aria-label="Close">
@@ -467,7 +465,7 @@
 
                 <?php
                         }for($i = $before; $i <= $next; $i++){
-                            if(isset($_GET['page-nr']) && $i == $_GET['page-nr']){
+                            if($i == $actual){
                 ?>
                                 <a  href="<?php echo $uri_search . $search_value . $uri_page_nr . $i ?>" 
                                     class="btn stroke-white text-white"><?php echo $i ?>
@@ -476,12 +474,12 @@
                             }else{
                                 if(!empty($pages)){
                 ?>
-                                <a  href="<?php echo $uri_search . $search_value . $uri_page_nr . $i ?>" 
-                                    class="btn bg-white text-blue"><?php echo $i ?>
-                                </a>
-                <?php  
-                        }
-                        }}
+                                        <a  href="<?php echo $uri_search . $search_value . $uri_page_nr . $i ?>"
+                                            class="btn bg-white text-blue"><?php echo $i ?>
+                                        </a>
+
+                <?php
+                        }}}
                         
                 ?>
                 </div>
@@ -545,11 +543,7 @@
 
     
 
-    <?php 
-        else:
-            header('Location: /home');
-        endif; 
-    ?>
+
         
     <script>
         // Form New Job
@@ -650,32 +644,7 @@
 
     </script>
     <style>
-        #modalOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
 
-        .Form{
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-            max-height: 90vh;
-            max-height: 75vh;
-            overflow-y: auto;
-        }
-
-        .btn-close{
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
 
         .card-jobs{
             border: 2px;
@@ -692,3 +661,6 @@
 </body>
 </html>
 
+<?php 
+    endif; 
+?>
