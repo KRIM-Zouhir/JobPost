@@ -1,3 +1,6 @@
+<img width="1536" height="1024" alt="fulllogo" src="https://github.com/user-attachments/assets/b56639a3-aced-47ff-810c-a4f2a197d150" />
+
+
 # JobPost
 
 A simple PHP web application providing a frontend and backend for managing posts, user authentication, file uploads and email notifications. The project includes a lightweight custom backend in `backend/`, client views in `frontend/`, and third-party libraries under `vendor/` and `phpmailer/`.
