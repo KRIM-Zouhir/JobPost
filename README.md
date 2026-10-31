@@ -67,12 +67,8 @@ Then open http://localhost:8000/ in your browser. `index.php` is the app entry p
 
 ## Contributing
 
-Contributions are welcome. Please open an issue to discuss major changes, or submit a pull request with a clear description of the change.
-
-## License
-
-No license file is included in this repository. If you intend to publish or share this project, add a `LICENSE` file (for example, MIT) and update this section.
+Contributions are welcome.
 
 ## Support / Contact
 
-If you need help with setup or want feature improvements, open an issue in the repository or contact the project maintainers.
+If you need help with setup or want feature improvements, open an issue in the repository.
